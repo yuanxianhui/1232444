@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>菜单信息</title>
+<link rel="stylesheet" th:href="@{/css/showButton.css}">
+
+<link rel="stylesheet" th:href="@{/hplus/css/bootstrap.min.css?v=3.3.6}">
+<link rel="stylesheet" th:href="@{/hplus/css/font-awesome.css?v=4.4.0}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/iCheck/custom.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/chosen/chosen.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/colorpicker/css/bootstrap-colorpicker.min.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/cropper/cropper.min.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/switchery/switchery.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/jasny/jasny-bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/nouslider/jquery.nouislider.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/datapicker/datepicker3.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/ionRangeSlider/ion.rangeSlider.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/clockpicker/clockpicker.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/animate.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/style.css?v=4.1.0}">
+<!-- Sweet Alert -->
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/sweetalert/sweetalert.css}">
+
+<!-- jqgrid -->
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/jqgrid/ui.jqgrid.css}">
+
+<style type="text/css">
+th{
+	text-align:center;
+}
+/*设置table显示横向滚动条*/
+.ui-jqgrid-bdiv{
+	overflow-x:auto!important;
+}
+</style>
+</head>
+<body class="gray-bg" style="overflow-x:hide;">
+	<div class="viewport">
+		<div class="button-row">
+			<button type="button" class="btn btn-primary" id="B_BASE_INFO_MENU_ADD"><i class="fa fa-plus"></i> 新增</button>
+			<button type="button" class="btn btn-primary" id="B_BASE_INFO_MENU_EDIT"><i class="fa fa-edit"></i> 编辑</button>
+			<button type="button" class="btn btn-primary" id="B_BASE_INFO_MENU_REMOVE"><i class="fa fa-remove"></i> 删除</button>
+			<button type="button" class="btn btn-primary" id="B_BASE_INFO_MENU_SEARCH"><i class="fa fa-search"></i> 检索</button>
+		</div>
+		<div class="show-area">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins" style="margin-bottom: 0px;">
+					<div class="ibox-content">
+						<div class="row">
+							<div class="col-sm-12">
+								<form class="form-inline" id="formlist">
+									<div class="form-group col-sm-4 row-top">
+										<label for="menuCode">菜单编号：</label>
+										<input type="text" class="form-control" id="menuCode" name="menuCode" placeholder="请输入菜单编号" onkeyup="grapheme_(this);">
+									</div>
+									<div class="form-group col-sm-4 row-top">
+										<label for="menuName">菜单名称：</label>
+										<input type="text" class="form-control" id="menuName" name="menuName" placeholder="请输入菜单名称">
+									</div>
+									<div class="form-group col-sm-4 row-top">
+										<label for="validateFlag">菜单状态：</label>
+										<div class="input-group">
+											<select id="validateFlag" name="validateFlag" data-placeholder="请选择菜单状态" class="chosen-select" style="width:14.2em;" tabindex="2">
+												<option value="">请选择菜单状态</option>
+												<option  th:each="m,obj:${validateFlag}" th:value="${m.key}" th:text="${m.value}"></option>
+											</select>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="jqGrid_wrapper">
+									<table id="table_list_1"></table>
+									<div id="pager_list_1"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	
+	<!-- 全局js -->
+	<script type="text/javascript" th:src="@{/hplus/js/jquery.min.js?v=2.1.4}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/bootstrap.min.js?v=3.3.6}"></script>
+	<!-- Chosen -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/chosen/chosen.jquery.js}"></script>
+	<!-- JSKnob -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/jsKnob/jquery.knob.js}"></script>
+	<!-- Input Mask-->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/jasny/jasny-bootstrap.min.js}"></script>
+	<!-- Data picker -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/datapicker/bootstrap-datepicker.js}"></script>
+	<!-- Prettyfile -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/prettyfile/bootstrap-prettyfile.js}"></script>
+	<!-- Switchery -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/switchery/switchery.js}"></script>
+	<!-- IonRangeSlider -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/ionRangeSlider/ion.rangeSlider.min.js}"></script>
+	<!-- iCheck -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/iCheck/icheck.min.js}"></script>
+	<!-- MENU -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+	<!-- Color picker -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/colorpicker/bootstrap-colorpicker.min.js}"></script>
+	<!-- Clock picker -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/clockpicker/clockpicker.js}"></script>
+	<!-- Image cropper -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/cropper/cropper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/demo/form-advanced-demo.js}"></script>
+	<!-- Sweet alert -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/sweetalert/sweetalert.min.js}"></script>
+
+	<!-- jqGrid -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/jqgrid/i18n/grid.locale-cn.js}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/jqgrid/jquery.jqGrid.min.js}"></script>
+	<!-- 自定义 -->
+	<script type="text/javascript" th:src="@{/js/bolue.js}"></script>
+	
+	<script type="text/javascript">
+		$(function(){
+			
+			//删除
+			$("#B_BASE_INFO_MENU_REMOVE").click(function(){
+				var rowId = $("#table_list_1").jqGrid("getGridParam", "selrow");
+				if(isEmpty(rowId)){
+					window.parent.showMsg("警告提示", "请选择要编辑的数据");
+					return;
+				}
+				var data = $("#table_list_1").jqGrid("getRowData", rowId);
+				swal({
+					title: "您确定要删除这条信息吗",
+					text: "删除后将无法恢复，请谨慎操作！",
+					type: "warning",
+					showCancelButton: true,
+					cancelButtonText: "取消",
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "删除",
+					closeOnConfirm: false
+				}, function () {
+					$.ajax({
+						type: "post",
+						url: "/baseinfo/menu/remove",
+						data: {"menuCode": data.menuCode},
+						dataType: "json",
+						success: function(data){
+							console.log(data);
+							if(data.success){
+								var url = "/baseinfo/menu/search";
+								var data = $("#formlist").serialize();
+								$("#table_list_1").jqGrid("setGridParam",{url: url, postData: data}).trigger("reloadGrid");
+								swal("成功提示", data.errorMessage, "success");
+							}else{
+								swal("异常提示", data.errorMessage);
+							}
+						}
+					});
+				});
+				
+				
+				
+				$.ajax({
+					type: "post",
+					url: "baseinfo/menu/remove",
+					//data: data,
+					dataType: "json",
+					success: function(data){
+						if(data.success){
+							window.parent.showMsgSuccess("成功提示", data.errorMessage);
+						}else{
+							window.parent.showMsg("异常提示", data.errorMessage);
+						}
+					},
+					error: function(error){
+						console.log(error);
+					}
+				});
+			});
+			
+			//编辑
+			$("#B_BASE_INFO_MENU_EDIT").click(function(){
+				var rowId = $("#table_list_1").jqGrid("getGridParam", "selrow");
+				if(isEmpty(rowId)){
+					window.parent.showMsg("警告提示", "请选择要编辑的数据");
+					return;
+				}
+				var rowData = $("#table_list_1").jqGrid("getRowData", rowId);
+				window.parent.commonModelByUrl("baseinfo/menu/edit?menuCode="+rowData.menuCode);
+			});
+			
+			//检索
+			$("#B_BASE_INFO_MENU_SEARCH").click(function(){
+				var url = "/baseinfo/menu/search";
+				var data = $("#formlist").serialize();
+				$("#table_list_1").jqGrid("setGridParam",{url: url, postData: data, datatype: "json", mtype: "post"}).trigger("reloadGrid");
+			});
+			
+			//新增
+			$("#B_BASE_INFO_MENU_ADD").click(function(){
+				window.parent.commonModelByUrl("/baseinfo/menu/add");
+				//window.location.href="/baseinfo/menu/add";
+			})
+			
+			//jqgrid自适应宽度
+			$(window).bind('resize', function () {
+				var width = $('.jqGrid_wrapper').width();
+				$('#table_list_1').setGridWidth(width);
+				$('#table_list_2').setGridWidth(width);
+			});
+			
+			$.jgrid.defaults.styleUI = 'Bootstrap';
+			$("#table_list_1").jqGrid({
+				mtype: "post",//向后台请求数据的ajax的类型。可选post,get
+				url: "/baseinfo/menu/search",
+				datatype: "json",
+				width:"100%",
+				height: 250,
+				autowidth: true,
+				shrinkToFit: false,
+				rowNum: 10, //初始化显示行数
+				rowList: [10, 20, 30],
+				rownumbers: true,  //显示序列号
+				sortname: 'menuCode',//初始化的时候排序的字段
+				sortorder: "desc",//排序方式,可选desc,asc
+				pagerpos: 'left',//翻页部分
+				recordpos: 'center',//显示共多少条部分
+				//cellsubmit:'remote',//or 'clientArray',remote代表每次编辑提交后进行服务器保存，clientArray只保存到数据表格不保存到服务器
+				//multiselect: true,//开启复选框
+				/* jsonReader: {
+					repeatitems: false
+				}, */
+				colNames: ["菜单编号", "菜单名称", "菜单路径", "排序号", "图标编码", "父菜单编号", "子菜单编号", "是否有效", "创建时间", "创建人", "更新时间", "更新人"],
+				colModel: [
+					{
+						name: 'menuCode',
+						index: 'menuCode',
+						frozen : true,
+						width: 150,
+						sorttype: "float"
+					},
+					{
+						name: 'menuName',
+						index: 'menuName',
+						align: "center",
+						width: 150,
+						sorttype: "float"
+					},
+					{
+						name: 'menuUrl',
+						index: 'menuUrl',
+						width: 250,
+						sorttype: "float"
+					},
+					{
+						name: 'serialNumber',
+						index: 'serialNumber',
+						width: 50,
+						align: "center",
+						sorttype: false,
+						//formatter: "number"
+					},
+					{
+						name: 'iconClass',
+						index: 'iconClass',
+						width: 150,
+						sortable: false
+					},
+					{
+						name: 'menuFlag',
+						index: 'menuFlag',
+						width: 150,
+						sortable: false
+					},
+					{
+						name: 'menuParent',
+						index: 'menuParent',
+						width: 150,
+						sortable: false
+					},
+					{
+						name: 'validateFlag',
+						index: 'validateFlag',
+						width: 50,
+						formatter: isValidFmatter,
+						align: "center",
+						sortable: false
+					},
+					{
+						name: 'createTime',
+						index: 'createTime',
+						width: 100,
+						sorttype: "date",
+						formatter: "date",
+						sortable: false
+					},
+					{
+						name: 'createUser',
+						index: 'createUser',
+						width: 100,
+						sortable: false
+					},
+					{
+						name: 'updateTime',
+						index: 'updateTime',
+						width: 100,
+						sorttype: "date",
+						formatter: "date",
+						sortable: false
+					},
+					{
+						name: 'updateUser',
+						index: 'updateUser',
+						width: 100,
+						sortable: false
+					}
+				],
+				pager: "#pager_list_1",
+				viewrecords: true,
+				//caption: "jqGrid 示例1", //table标题
+				hidegrid: false
+			}).jqGrid('setFrozenColumns').triggerHandler("jqGridAfterGridComplete");
+			//设置table显示横向滚动条
+			//$("#table_list_1").closest(".ui-jqgrid-bdiv").css({ "overflow-x": "scroll" });
+		});
+		
+	</script>
+</body>
+</html>

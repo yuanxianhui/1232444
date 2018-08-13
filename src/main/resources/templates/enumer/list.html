@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>设置类别</title>
+<link rel="stylesheet" th:href="@{/hplus/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/hplus/css/font-awesome.css}" />
+<link rel="stylesheet" th:href="@{/hplus/css/animate.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/style.css}">
+<link rel="stylesheet" th:href="@{/css/showButton.css}">
+<!-- jqgrid -->
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/jqgrid/ui.jqgrid.css}">
+</head>
+<body class="gray-bg">
+	<div class="viewport">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>类型</h5>
+						<div class="ibox-tools">
+							<a class="collapse-link"> <i class="fa fa-chevron-up"></i></a>
+						</div>
+					</div>
+					<div class="ibox-content">
+						<div class="row">
+							<div class="col-sm-6">
+								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> 新增</button>
+								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"></i> 编辑</button>
+								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-remove"></i> 删除</button>
+								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> 保存</button>
+							</div>
+							<div class="col-sm-6">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="请输入编号或名称"> 
+									<span class="input-group-btn"> 
+										<button type="button" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button> 
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="jqGrid_wrapper">
+							<table id="table_list_1"></table>
+							<div id="pager_list_1"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>数据</h5>
+						<div class="ibox-tools">
+							<a class="collapse-link"> <i class="fa fa-chevron-up"></i></a>
+						</div>
+					</div>
+					<div class="ibox-content">
+						<div class="row">
+							<div class="col-sm-6">
+								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> 新增</button>
+								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"></i> 编辑</button>
+								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-remove"></i> 删除</button>
+								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> 保存</button>
+							</div>
+							<div class="col-sm-6">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="请输入编号或名称"> 
+									<span class="input-group-btn"> 
+										<button type="button" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button> 
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="jqGrid_wrapper">
+							<table id="table_list_2"></table>
+							<div id="pager_list_2"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 全局js -->
+	<script type="text/javascript" th:src="@{/hplus/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/bootstrap.min.js}"></script>
+	<!-- Peity -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/peity/jquery.peity.min.js}"></script>
+	<!-- jqGrid -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/jqgrid/i18n/grid.locale-cn.js}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/jqgrid/jquery.jqGrid.min.js}"></script>
+	<!-- 自定义js -->
+	<script type="text/javascript" th:src="@{/hplus/js/content.js}"></script>
+	
+	<script type="text/javascript">
+		$(function(){
+			
+			$("#popup").click(function(){
+				window.parent.commonModelByUrl("/register/list");
+			});
+			
+			$.jgrid.defaults.styleUI = 'Bootstrap';
+			
+            $("#table_list_1").jqGrid({
+                data: mydata,
+                datatype: "local",
+                width:"100%",
+                height: 250,
+                autowidth: true,
+                shrinkToFit: true,
+                rowNum: 14,
+                rowList: [10, 20, 30],
+                sortname: 'id',//初始化的时候排序的字段
+                sortorder: "asc",//排序方式,可选desc,asc
+                mtype: "post",//向后台请求数据的ajax的类型。可选post,get
+                pagerpos: 'left',//翻页部分
+                recordpos: 'center',//显示共多少条部分
+                cellsubmit:'remote',//or 'clientArray',remote代表每次编辑提交后进行服务器保存，clientArray只保存到数据表格不保存到服务器
+                multiselect: true,//开启复选框
+                colNames: ['序号', '日期', '客户', '金额', '运费', '总额', '备注'],
+                colModel: [
+                    {
+                        name: 'id',
+                        index: 'id',
+                        width: 60,
+                        sorttype: "int"
+                    },
+                    {
+                        name: 'invdate',
+                        index: 'invdate',
+                        width: 90,
+                        sorttype: "date",
+                        formatter: "date"
+                    },
+                    {
+                        name: 'name',
+                        index: 'name',
+                        width: 100
+                    },
+                    {
+                        name: 'amount',
+                        index: 'amount',
+                        width: 80,
+                        align: "right",
+                        sorttype: "float",
+                        formatter: "number"
+                    },
+                    {
+                        name: 'tax',
+                        index: 'tax',
+                        width: 80,
+                        align: "right",
+                        sorttype: "float"
+                    },
+                    {
+                        name: 'total',
+                        index: 'total',
+                        width: 80,
+                        align: "right",
+                        sorttype: "float"
+                    },
+                    {
+                        name: 'note',
+                        index: 'note',
+                        width: 150,
+                        sortable: false
+                    }
+                ],
+                pager: "#pager_list_1",
+                viewrecords: true,
+                //caption: "jqGrid 示例1",
+                hidegrid: false
+            });
+			
+            $("#table_list_2").jqGrid({
+                data: mydata,
+                datatype: "local",
+                width:"100%",
+                height: 250,
+                autowidth: true,
+                shrinkToFit: true,
+                rowNum: 14,
+                rowList: [10, 20, 30],
+                sortname: 'id',//初始化的时候排序的字段
+                sortorder: "asc",//排序方式,可选desc,asc
+                mtype: "post",//向后台请求数据的ajax的类型。可选post,get
+                pagerpos: 'left',//翻页部分
+                recordpos: 'center',//显示共多少条部分
+                multiselect: true,//开启复选框
+                colNames: ['序号', '日期', '客户', '金额', '运费', '总额', '备注'],
+                colModel: [
+                    {
+                        name: 'id',
+                        index: 'id',
+                        width: 60,
+                        sorttype: "int"
+                    },
+                    {
+                        name: 'invdate',
+                        index: 'invdate',
+                        width: 90,
+                        sorttype: "date",
+                        formatter: "date"
+                    },
+                    {
+                        name: 'name',
+                        index: 'name',
+                        width: 100
+                    },
+                    {
+                        name: 'amount',
+                        index: 'amount',
+                        width: 80,
+                        align: "right",
+                        sorttype: "float",
+                        formatter: "number"
+                    },
+                    {
+                        name: 'tax',
+                        index: 'tax',
+                        width: 80,
+                        align: "right",
+                        sorttype: "float"
+                    },
+                    {
+                        name: 'total',
+                        index: 'total',
+                        width: 80,
+                        align: "right",
+                        sorttype: "float"
+                    },
+                    {
+                        name: 'note',
+                        index: 'note',
+                        width: 150,
+                        sortable: false
+                    }
+                ],
+                pager: "#pager_list_2",
+                viewrecords: true,
+                //caption: "jqGrid 示例2",
+                hidegrid: false
+            });
+            
+			//jqgrid自适应宽度
+            $(window).bind('resize', function () {
+                var width = $('.jqGrid_wrapper').width();
+                $('#table_list_1').setGridWidth(width);
+                $('#table_list_2').setGridWidth(width);
+            });
+			
+            /*可以控制界面上增删改查的按钮是否显示*/
+            //jQuery("#table_list_1").jqGrid('navGrid', '#pager_list_1', {edit : false,add : false,del : false});
+		});
+		
+        
+        // Examle data for jqGrid
+        var mydata = [
+            {
+                id: "1",
+                invdate: "2010-05-24",
+                name: "test",
+                note: "note",
+                tax: "10.00",
+                total: "2111.00"
+            },
+            {
+                id: "2",
+                invdate: "2010-05-25",
+                name: "test2",
+                note: "note2",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "3",
+                invdate: "2007-09-01",
+                name: "test3",
+                note: "note3",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "4",
+                invdate: "2007-10-04",
+                name: "test",
+                note: "note",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "5",
+                invdate: "2007-10-05",
+                name: "test2",
+                note: "note2",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "6",
+                invdate: "2007-09-06",
+                name: "test3",
+                note: "note3",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "7",
+                invdate: "2007-10-04",
+                name: "test",
+                note: "note",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "8",
+                invdate: "2007-10-03",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "21.00",
+                total: "320.00"
+            },
+            {
+                id: "9",
+                invdate: "2007-09-01",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "11",
+                invdate: "2007-10-01",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "12",
+                invdate: "2007-10-02",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "13",
+                invdate: "2007-09-01",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "14",
+                invdate: "2007-10-04",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "15",
+                invdate: "2007-10-05",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "16",
+                invdate: "2007-09-06",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "17",
+                invdate: "2007-10-04",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "18",
+                invdate: "2007-10-03",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "19",
+                invdate: "2007-09-01",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "21",
+                invdate: "2007-10-01",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "22",
+                invdate: "2007-10-02",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "23",
+                invdate: "2007-09-01",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "24",
+                invdate: "2007-10-04",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "25",
+                invdate: "2007-10-05",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "26",
+                invdate: "2007-09-06",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "27",
+                invdate: "2007-10-04",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "28",
+                invdate: "2007-10-03",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "29",
+                invdate: "2007-09-01",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            }
+        ];
+
+	</script>
+</body>
+</html>

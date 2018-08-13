@@ -1,0 +1,35 @@
+/**
+自定义按钮栏
+**/
+.button-row{
+    position:fixed;
+    z-index:14;
+    top:0em;
+    left:0em;
+    bottom:0em;
+    right:0em;
+    width:100%;
+    height:3.7em;
+    text-align:right;
+    padding-top:0.5em;
+    background:#ffff;
+    padding-left:1em;
+    padding-right:1em;
+}
+.show-area{
+    position:absolute;
+    z-index:3;
+    top:3.8em;
+    left:0em;
+    bottom:0em;
+    right:0em;
+    width:100%;
+    /* padding-left:1em;
+    padding-right:1em; */
+}
+.row-top{
+	margin-top: 2px;
+}
+.fill{
+	color: red;
+}

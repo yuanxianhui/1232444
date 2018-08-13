@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bolue.oa.system.dto.SysDepartmentMapper" >
+  <resultMap id="BaseResultMap" type="com.bolue.oa.system.entity.SysDepartment" >
+    <id column="department_code" property="departmentCode" jdbcType="VARCHAR" />
+    <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
+    <result column="validate_flag" property="validateFlag" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="attr_1" property="attr1" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    department_code, department_name, validate_flag, create_user, create_time, update_user, 
+    update_time, attr_1
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_department
+    where department_code = #{departmentCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_department
+    where department_code = #{departmentCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bolue.oa.system.entity.SysDepartment" >
+    insert into sys_department (department_code, department_name, validate_flag, 
+      create_user, create_time, update_user, 
+      update_time, attr_1)
+    values (#{departmentCode,jdbcType=VARCHAR}, #{departmentName,jdbcType=VARCHAR}, #{validateFlag,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{attr1,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bolue.oa.system.entity.SysDepartment" >
+    insert into sys_department
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="departmentCode != null" >
+        department_code,
+      </if>
+      <if test="departmentName != null" >
+        department_name,
+      </if>
+      <if test="validateFlag != null" >
+        validate_flag,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="attr1 != null" >
+        attr_1,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="departmentCode != null" >
+        #{departmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentName != null" >
+        #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="validateFlag != null" >
+        #{validateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attr1 != null" >
+        #{attr1,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bolue.oa.system.entity.SysDepartment" >
+    update sys_department
+    <set >
+      <if test="departmentName != null" >
+        department_name = #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="validateFlag != null" >
+        validate_flag = #{validateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attr1 != null" >
+        attr_1 = #{attr1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where department_code = #{departmentCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bolue.oa.system.entity.SysDepartment" >
+    update sys_department
+    set department_name = #{departmentName,jdbcType=VARCHAR},
+      validate_flag = #{validateFlag,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      attr_1 = #{attr1,jdbcType=VARCHAR}
+    where department_code = #{departmentCode,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByAccountCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT
+      t4.department_code, 
+      t4.department_name, 
+      t4.validate_flag, 
+      t4.create_user, 
+      t4.create_time, 
+      t4.update_user, 
+      t4.update_time, 
+      t4.attr_1
+    FROM
+      sys_account t1
+    INNER JOIN sys_account_user_relation t2 ON t1.account_code = t2.account_code AND t2.validate_flag = 'Y'
+    LEFT JOIN sys_user_department_relation t3 ON t2.user_code = t3.user_code AND t3.validate_flag = 'Y'
+    LEFT JOIN sys_department t4 ON t3.department_code = t4.department_code AND t4.validate_flag = 'Y'
+    WHERE
+      t1.locked = '0'
+    AND t1.account_code = #{accountCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectDepartmentsByForm" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_department
+    where 1=1
+      <if test="data.departmentCode != null and data.departmentCode != ''" >
+        and department_code like CONCAT('%',#{data.departmentCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="data.departmentName != null and data.departmentName != ''" >
+        and department_name like CONCAT('%',#{data.departmentName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="data.validateFlag != null and data.validateFlag != ''" >
+        and validate_flag = #{data.validateFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="data.createUser != null and data.createUser != ''" >
+        and create_user = #{data.createUser,jdbcType=VARCHAR}
+      </if>
+      <if test="data.createTime != null and data.createTime != ''" >
+        and create_time = #{data.createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="data.updateUser != null and data.updateUser != ''" >
+        and update_user = #{data.updateUser,jdbcType=VARCHAR}
+      </if>
+      <if test="data.updateTime != null and data.updateTime != ''" >
+        and update_time = #{data.updateTime,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+</mapper>

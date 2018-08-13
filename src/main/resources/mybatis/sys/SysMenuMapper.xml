@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bolue.oa.system.dto.SysMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.bolue.oa.system.entity.SysMenu" >
+    <id column="menu_code" property="menuCode" jdbcType="VARCHAR" />
+    <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="menu_flag" property="menuFlag" jdbcType="VARCHAR" />
+    <result column="menu_parent" property="menuParent" jdbcType="VARCHAR" />
+    <result column="serial_number" property="serialNumber" jdbcType="INTEGER" />
+    <result column="icon_class" property="iconClass" jdbcType="VARCHAR" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="validate_flag" property="validateFlag" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    menu_code, menu_url, menu_flag, menu_parent, serial_number, icon_class, menu_name, 
+    validate_flag, create_time, create_user, update_time, update_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where menu_code = #{menuCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllMenu" resultMap="BaseResultMap" >
+    select 
+    DISTINCT menu_code, menu_name
+    from sys_menu
+    ORDER BY menu_name desc 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_menu
+    where menu_code = #{menuCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bolue.oa.system.entity.SysMenu" >
+    insert into sys_menu (menu_code, menu_url, menu_flag, 
+      menu_parent, serial_number, icon_class, 
+      menu_name, validate_flag, create_time, 
+      create_user, update_time, update_user
+      )
+    values (#{menuCode,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR}, #{menuFlag,jdbcType=VARCHAR}, 
+      #{menuParent,jdbcType=VARCHAR}, #{serialNumber,jdbcType=INTEGER}, #{iconClass,jdbcType=VARCHAR}, 
+      #{menuName,jdbcType=VARCHAR}, #{validateFlag,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bolue.oa.system.entity.SysMenu" >
+    insert into sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuCode != null" >
+        menu_code,
+      </if>
+      <if test="menuUrl != null" >
+        menu_url,
+      </if>
+      <if test="menuFlag != null" >
+        menu_flag,
+      </if>
+      <if test="menuParent != null" >
+        menu_parent,
+      </if>
+      <if test="serialNumber != null" >
+        serial_number,
+      </if>
+      <if test="iconClass != null" >
+        icon_class,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="validateFlag != null" >
+        validate_flag,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuCode != null" >
+        #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuFlag != null" >
+        #{menuFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="menuParent != null" >
+        #{menuParent,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNumber != null" >
+        #{serialNumber,jdbcType=INTEGER},
+      </if>
+      <if test="iconClass != null" >
+        #{iconClass,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="validateFlag != null" >
+        #{validateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bolue.oa.system.entity.SysMenu" >
+    update sys_menu
+    <set >
+      <if test="menuUrl != null" >
+        menu_url = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuFlag != null" >
+        menu_flag = #{menuFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="menuParent != null" >
+        menu_parent = #{menuParent,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNumber != null" >
+        serial_number = #{serialNumber,jdbcType=INTEGER},
+      </if>
+      <if test="iconClass != null" >
+        icon_class = #{iconClass,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="validateFlag != null" >
+        validate_flag = #{validateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where menu_code = #{menuCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bolue.oa.system.entity.SysMenu" >
+    update sys_menu
+    set menu_url = #{menuUrl,jdbcType=VARCHAR},
+      menu_flag = #{menuFlag,jdbcType=VARCHAR},
+      menu_parent = #{menuParent,jdbcType=VARCHAR},
+      serial_number = #{serialNumber,jdbcType=INTEGER},
+      icon_class = #{iconClass,jdbcType=VARCHAR},
+      menu_name = #{menuName,jdbcType=VARCHAR},
+      validate_flag = #{validateFlag,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where menu_code = #{menuCode,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByAccountCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT
+      t5.menu_code, 
+      t5.menu_url, 
+      t5.menu_flag, 
+      t5.menu_parent, 
+      t5.serial_number, 
+      t5.icon_class, 
+      t5.menu_name, 
+      t5.validate_flag, 
+      t5.create_time, 
+      t5.create_user, 
+      t5.update_time, 
+      t5.update_user
+    FROM
+      sys_account t1
+    INNER JOIN sys_account_user_relation t2 ON t1.account_code = t2.account_code AND t2.validate_flag = 'Y'
+    LEFT JOIN sys_user_department_relation t3 ON t2.user_code = t3.user_code AND t3.validate_flag = 'Y'
+    LEFT JOIN sys_department_menu_relation t4 ON t3.department_code = t4.department_code AND t4.validate_flag = 'Y'
+    LEFT JOIN sys_menu t5 ON t4.menu_code = t5.menu_code AND t5.validate_flag = 'Y'
+    WHERE
+     t1.locked = '0'
+    AND t1.account_code = #{accountCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectParentByAccountCode" resultType="java.lang.String" parameterType="java.lang.String" >
+    SELECT
+      DISTINCT t5.menu_flag
+    FROM
+      sys_account t1
+    INNER JOIN sys_account_user_relation t2 ON t1.account_code = t2.account_code AND t2.validate_flag = 'Y'
+    LEFT JOIN sys_user_department_relation t3 ON t2.user_code = t3.user_code AND t3.validate_flag = 'Y'
+    LEFT JOIN sys_department_menu_relation t4 ON t3.department_code = t4.department_code AND t4.validate_flag = 'Y'
+    LEFT JOIN sys_menu t5 ON t4.menu_code = t5.menu_code AND t5.validate_flag = 'Y'
+    WHERE
+     t1.locked = '0'
+    AND t1.account_code = #{accountCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectInfosByForm" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where 1=1
+      <if test="data.menuCode != null and data.menuCode != ''" >
+        and menu_code like CONCAT('%',#{data.menuCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="data.menuUrl != null and data.menuUrl != ''" >
+        and menu_url = #{data.menuUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="data.menuFlag != null and data.menuFlag != ''" >
+        and menu_flag = #{data.menuFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="data.menuParent != null and data.menuParent != ''" >
+        and menu_parent = #{data.menuParent,jdbcType=VARCHAR}
+      </if>
+      <if test="data.serialNumber != null and data.serialNumber != ''" >
+        and serial_number = #{data.serialNumber,jdbcType=INTEGER}
+      </if>
+      <if test="data.iconClass != null and data.iconClass != ''" >
+        and icon_class = #{data.iconClass,jdbcType=VARCHAR}
+      </if>
+      <if test="data.menuName != null and data.menuName != ''" >
+        and menu_name like CONCAT('%',#{data.menuName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="data.validateFlag != null and data.validateFlag != ''" >
+        and validate_flag = #{data.validateFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="data.createTime != null and data.createTime != ''" >
+        and create_time = #{data.createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="data.createUser != null and data.createUser != ''" >
+        and create_user = #{data.createUser,jdbcType=VARCHAR}
+      </if>
+      <if test="data.updateTime != null and data.updateTime != ''" >
+        and update_time = #{data.updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="data.updateUser != null and data.updateUser != ''" >
+        and update_user = #{data.updateUser,jdbcType=VARCHAR}
+      </if>
+  </select>
+</mapper>

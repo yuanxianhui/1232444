@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bolue.oa.system.dto.SysAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.bolue.oa.system.entity.SysAccount" >
+    <id column="account_code" property="accountCode" jdbcType="VARCHAR" />
+    <result column="account_key" property="accountKey" jdbcType="VARCHAR" />
+    <result column="locked" property="locked" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    account_code, account_key, locked, create_time, create_user, update_time, update_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_account
+    where account_code = #{accountCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_account
+    where account_code = #{accountCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bolue.oa.system.entity.SysAccount" >
+    insert into sys_account (account_code, account_key, locked, 
+      create_time, create_user, update_time, 
+      update_user)
+    values (#{accountCode,jdbcType=VARCHAR}, #{accountKey,jdbcType=VARCHAR}, #{locked,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bolue.oa.system.entity.SysAccount" >
+    insert into sys_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountCode != null" >
+        account_code,
+      </if>
+      <if test="accountKey != null" >
+        account_key,
+      </if>
+      <if test="locked != null" >
+        locked,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountCode != null" >
+        #{accountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="accountKey != null" >
+        #{accountKey,jdbcType=VARCHAR},
+      </if>
+      <if test="locked != null" >
+        #{locked,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bolue.oa.system.entity.SysAccount" >
+    update sys_account
+    <set >
+      <if test="accountKey != null" >
+        account_key = #{accountKey,jdbcType=VARCHAR},
+      </if>
+      <if test="locked != null" >
+        locked = #{locked,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where account_code = #{accountCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bolue.oa.system.entity.SysAccount" >
+    update sys_account
+    set account_key = #{accountKey,jdbcType=VARCHAR},
+      locked = #{locked,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where account_code = #{accountCode,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAccounts" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM sys_account WHERE locked IN ('0', '3')
+  </select>
+</mapper>

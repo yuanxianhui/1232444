@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bolue.oa.system.dto.SysUserMapper" >
+  <resultMap id="BaseResultMap" type="com.bolue.oa.system.entity.SysUser" >
+    <id column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="account_code" property="accountCode" jdbcType="VARCHAR" />
+    <result column="user_sex" property="userSex" jdbcType="VARCHAR" />
+    <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="user_card_id" property="userCardId" jdbcType="VARCHAR" />
+    <result column="province_code" property="provinceCode" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="area_code" property="areaCode" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="staff_flg" property="staffFlg" jdbcType="VARCHAR" />
+    <result column="entry_time" property="entryTime" jdbcType="TIMESTAMP" />
+    <result column="official_time" property="officialTime" jdbcType="TIMESTAMP" />
+    <result column="dimission_time" property="dimissionTime" jdbcType="TIMESTAMP" />
+    <result column="validate_flag" property="validateFlag" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_code, user_name, account_code, user_sex, phone_number, user_card_id, province_code, city_code, 
+    area_code, address, staff_flg, entry_time, official_time, dimission_time, validate_flag, 
+    update_time, update_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where user_code = #{userCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_user
+    where user_code = #{userCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bolue.oa.system.entity.SysUser" >
+    insert into sys_user (user_code, user_name, account_code, 
+      user_sex, phone_number, user_card_id, province_code, 
+      city_code, area_code, address, 
+      staff_flg, entry_time, official_time, 
+      dimission_time, validate_flag, update_time, 
+      update_user)
+    values (#{userCode,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{accountCode,jdbcType=VARCHAR}, 
+      #{userSex,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{userCardId,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, 
+      #{cityCode,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{staffFlg,jdbcType=VARCHAR}, #{entryTime,jdbcType=TIMESTAMP}, #{officialTime,jdbcType=TIMESTAMP}, 
+      #{dimissionTime,jdbcType=TIMESTAMP}, #{validateFlag,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bolue.oa.system.entity.SysUser" >
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userCode != null" >
+        user_code,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="accountCode != null" >
+        account_code,
+      </if>
+      <if test="userSex != null" >
+        user_sex,
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number,
+      </if>
+      <if test="userCardId != null" >
+        user_card_id,
+      </if>
+      <if test="provinceCode != null" >
+        province_code,
+      </if>
+      <if test="cityCode != null" >
+        city_code,
+      </if>
+      <if test="areaCode != null" >
+        area_code,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="staffFlg != null" >
+        staff_flg,
+      </if>
+      <if test="entryTime != null" >
+        entry_time,
+      </if>
+      <if test="officialTime != null" >
+        official_time,
+      </if>
+      <if test="dimissionTime != null" >
+        dimission_time,
+      </if>
+      <if test="validateFlag != null" >
+        validate_flag,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userCode != null" >
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountCode != null" >
+        #{accountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null" >
+        #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userCardId != null" >
+        #{userCardId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceCode != null" >
+        #{provinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null" >
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="staffFlg != null" >
+        #{staffFlg,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null" >
+        #{entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="officialTime != null" >
+        #{officialTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dimissionTime != null" >
+        #{dimissionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validateFlag != null" >
+        #{validateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bolue.oa.system.entity.SysUser" >
+    update sys_user
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountCode != null" >
+        account_code = #{accountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null" >
+        user_sex = #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userCardId != null" >
+        user_card_id = #{userCardId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceCode != null" >
+        province_code = #{provinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null" >
+        city_code = #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="staffFlg != null" >
+        staff_flg = #{staffFlg,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null" >
+        entry_time = #{entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="officialTime != null" >
+        official_time = #{officialTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dimissionTime != null" >
+        dimission_time = #{dimissionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validateFlag != null" >
+        validate_flag = #{validateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_code = #{userCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bolue.oa.system.entity.SysUser" >
+    update sys_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      account_code = #{accountCode,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=VARCHAR},
+      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      user_card_id = #{userCardId,jdbcType=VARCHAR},
+      province_code = #{provinceCode,jdbcType=VARCHAR},
+      city_code = #{cityCode,jdbcType=VARCHAR},
+      area_code = #{areaCode,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      staff_flg = #{staffFlg,jdbcType=VARCHAR},
+      entry_time = #{entryTime,jdbcType=TIMESTAMP},
+      official_time = #{officialTime,jdbcType=TIMESTAMP},
+      dimission_time = #{dimissionTime,jdbcType=TIMESTAMP},
+      validate_flag = #{validateFlag,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where user_code = #{userCode,jdbcType=VARCHAR}
+  </update>
+  <select id="selectUserInfoByAccount" resultMap="BaseResultMap" >
+    SELECT
+      t3.user_code, 
+      t3.user_name, 
+      t3.user_sex, 
+      t3.phone_number,
+      t3.user_card_id, 
+      t3.province_code, 
+      t3.city_code, area_code, 
+      t3.address, 
+      t3.staff_flg, 
+      t3.entry_time, 
+      t3.dimission_time, 
+      t3.validate_flag, 
+      t3.update_time, 
+      t3.update_user
+    FROM
+      sys_account t1
+    INNER JOIN sys_account_user_relation t2 ON t1.account_code = t2.account_code AND t2.validate_flag = 'Y'
+    LEFT JOIN sys_user t3 ON t2.user_code = t3.user_code AND t3.validate_flag = 'Y'
+    WHERE
+      t1.locked = '0'
+    AND t1.account_code = #{accountCode}
+  </select>
+</mapper>

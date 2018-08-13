@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>后台管理平台</title>
+<link rel="stylesheet" th:href="@{/hplus/css/bootstrap.min.css}"/>
+<link rel="stylesheet" th:href="@{/hplus/css/font-awesome.css}"/>
+<link rel="stylesheet" th:href="@{/hplus/css/animate.css}"/>
+<link rel="stylesheet" th:href="@{/hplus/css/style.css}"/>
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/sweetalert/sweetalert.css}"/>
+<script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+</head>
+<body>
+	<div class="middle-box text-center loginscreen  animated fadeInDown">
+		<div>
+			<div>
+				<!-- 设置上次登陆用户头像 -->
+				<h1 class="logo-name" id="day"></h1>
+			</div>
+			<!-- 管理员定期更新 -->
+			<h3 style="font-family: FZShuTi;">今天你有什么好点子</h3>
+			<div class="m-t">
+				<div class="form-group">
+					<input type="text" id="userNo" class="form-control" placeholder="用户名" required="required">
+				</div>
+				<div class="form-group">
+					<input type="password" id="passwordNo" class="form-control" placeholder="密码" required="required">
+				</div>
+				<button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
+				<p class="text-muted text-center"> <a href="login.html#"><small>忘记密码了？</small></a> | <a href="/register/index">注册一个新账号</a></p>
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript" th:src="@{/hplus/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/bootstrap.min.js}"></script>
+	<!-- Sweet alert -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/sweetalert/sweetalert.min.js}"></script>
+	<script type="text/javascript">
+		$("#day").html("日一二三四五六".charAt(new Date().getDay()));
+		$("button").click(function(){
+			$.ajax({
+				type: "POST",
+				url: "/login/logincheck",
+				data: {"account": $("#userNo").val(), "password": $("#passwordNo").val()},
+				dataType: "json",
+				success: function(data){
+					console.log(data);
+					if(data.success){
+						//请求首页
+						window.location.href = "/index";
+					}else{
+						//设置提示信息
+						swal({
+							title: " ",
+							text: data.errorMessage
+						});
+					}
+				}
+			});
+		});
+	</script>
+</body>
+</html>

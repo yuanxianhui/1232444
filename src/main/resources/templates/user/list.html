@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>员工基础信息</title>
+<link rel="stylesheet" th:href="@{/css/showButton.css}">
+
+<link rel="stylesheet" th:href="@{/hplus/css/bootstrap.min.css?v=3.3.6}">
+<link rel="stylesheet" th:href="@{/hplus/css/font-awesome.css?v=4.4.0}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/iCheck/custom.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/chosen/chosen.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/colorpicker/css/bootstrap-colorpicker.min.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/cropper/cropper.min.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/switchery/switchery.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/jasny/jasny-bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/nouslider/jquery.nouislider.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/datapicker/datepicker3.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/ionRangeSlider/ion.rangeSlider.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/clockpicker/clockpicker.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/animate.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/style.css?v=4.1.0}">
+<!-- Sweet Alert -->
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/sweetalert/sweetalert.css}">
+<!-- jqgrid -->
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/jqgrid/ui.jqgrid.css}">
+<style type="text/css">
+th{
+	text-align:center;
+}
+/*设置table显示横向滚动条*/
+.ui-jqgrid-bdiv{
+	overflow-x:auto!important;
+}
+</style>
+</head>
+<body class="gray-bg">
+	<div class="viewport">
+		<div class="button-row">
+			<button type="button" class="btn btn-primary" id="B_BASE_INFO_USER_ADD"><i class="fa fa-plus"></i> 新增</button>
+			<button type="button" class="btn btn-primary"><i class="fa fa-edit"></i> 编辑</button>
+			<button type="button" class="btn btn-primary"><i class="fa fa-remove"></i> 删除</button>
+			<button type="button" class="btn btn-primary"><i class="fa fa-search"></i> 检索</button>
+		</div>
+		<div class="show-area">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins" style="margin-bottom: 0px;">
+					<div class="ibox-content">
+						<div class="row">
+							<div class="col-sm-12">
+								<form class="form-inline">
+									<div class="form-group col-sm-4 row-top">
+										<label for="userCode">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</label>
+										<input type="text" class="form-control" id="userCode" name="userCode" placeholder="请输入工号">
+									</div>
+									<div class="form-group col-sm-4 row-top">
+										<label for="userName">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</label>
+										<input type="text" class="form-control" id="userName" name="userName" placeholder="请输入姓名">
+									</div>
+									<div class="form-group col-sm-4 row-top" id="data_1">
+										<label for="entryTime">入职时间：</label>
+										<div class="input-group date">
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											<input type="text" class="form-control" id="entryTime" name="entryTime" placeholder="请输入入职时间">
+										</div>
+									</div>
+									<div class="form-group col-sm-4 row-top">
+										<label for="accountCode">账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</label>
+										<input type="text" class="form-control" id="accountCode" name="accountCode" placeholder="请输入账号">
+									</div>
+									<div class="form-group col-sm-4 row-top">
+										<label for="exampleInputName2">在职状态：</label>
+										<div class="input-group">
+											<select id="exampleInputName2" data-placeholder="请选择在职状态" class="chosen-select" style="width:14.2em;" tabindex="2">
+												<option value="">请选择省份</option>
+												<option value="110000" hassubinfo="true">北京</option>
+												<option value="120000" hassubinfo="true">天津</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group col-sm-4 row-top" id="data_1">
+										<label for="officialTime">转正时间：</label>
+										<div class="input-group date">
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											<input type="text" class="form-control" id="officialTime" name="officialTime" placeholder="请输入转正时间">
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="jqGrid_wrapper">
+									<table id="table_list_1"></table>
+									<div id="pager_list_1"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	
+	<!-- 全局js -->
+	<script type="text/javascript" th:src="@{/hplus/js/jquery.min.js?v=2.1.4}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/bootstrap.min.js?v=3.3.6}"></script>
+	<!-- 自定义js -->
+	<script type="text/javascript" th:src="@{/hplus/js/content.js?v=1.0.0}"></script>
+	<!-- Chosen -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/chosen/chosen.jquery.js}"></script>
+	<!-- JSKnob -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/jsKnob/jquery.knob.js}"></script>
+	<!-- Input Mask-->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/jasny/jasny-bootstrap.min.js}"></script>
+	<!-- Data picker -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/datapicker/bootstrap-datepicker.js}"></script>
+	<!-- Prettyfile -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/prettyfile/bootstrap-prettyfile.js}"></script>
+	<!-- Switchery -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/switchery/switchery.js}"></script>
+	<!-- IonRangeSlider -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/ionRangeSlider/ion.rangeSlider.min.js}"></script>
+	<!-- iCheck -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/iCheck/icheck.min.js}"></script>
+	<!-- MENU -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+	<!-- Color picker -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/colorpicker/bootstrap-colorpicker.min.js}"></script>
+	<!-- Clock picker -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/clockpicker/clockpicker.js}"></script>
+	<!-- Image cropper -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/cropper/cropper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/demo/form-advanced-demo.js}"></script>
+	<!-- Sweet alert -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/sweetalert/sweetalert.min.js}"></script>
+	<!-- jqGrid -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/jqgrid/i18n/grid.locale-cn.js}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/jqgrid/jquery.jqGrid.min.js}"></script>
+	<!-- 自定义 -->
+	<script type="text/javascript" th:src="@{/js/bolue.js}"></script>
+	
+	<script type="text/javascript">
+		$(function(){
+			
+			//新增
+			$("#B_BASE_INFO_USER_ADD").click(function(){
+				window.location.href="/baseinfo/user/add";
+			});
+			
+			//jqgrid自适应宽度
+			$(window).bind('resize', function () {
+				var width = $('.jqGrid_wrapper').width();
+				$('#table_list_1').setGridWidth(width);
+				$('#table_list_2').setGridWidth(width);
+			});
+			
+			$.jgrid.defaults.styleUI = 'Bootstrap';
+			$("#table_list_1").jqGrid({
+				mtype: "post",//向后台请求数据的ajax的类型。可选post,get
+				url: "",
+				datatype: "json",
+				width:"100%",
+				height: 250,
+				autowidth: true,
+				shrinkToFit: true,
+				rownumbers: true,  //显示序列号
+				rowNum: 10,
+				rowList: [10, 20, 30],
+				sortname: 'userCode',//初始化的时候排序的字段
+				sortorder: "desc",//排序方式,可选desc,asc
+				pagerpos: 'left',//翻页部分
+				recordpos: 'center',//显示共多少条部分
+				cellsubmit:'remote',//or 'clientArray',remote代表每次编辑提交后进行服务器保存，clientArray只保存到数据表格不保存到服务器
+				//multiselect: true,//开启复选框
+				colNames: ['工号', '姓名', '账号', '性别', '现住地址', '员工状态', '入职时间', '转正时间', '离职时间', '创建时间', '创建人', '更新时间', '更新人'],
+				colModel: [
+					{
+						name: 'userCode',
+						index: 'userCode',
+						width: 100,
+						align: "center",
+						frozen : true,
+						sorttype: "float"
+					},
+					{
+						name: 'userName',
+						index: 'userName',
+						width: 100,
+						frozen : true,
+						sorttype: "float"
+					},
+					{
+						name: 'accountCode',
+						index: 'accountCode',
+						width: 100,
+						align: "center"
+					},
+					{
+						name: 'userSex',
+						index: 'userSex',
+						width: 80,
+						sorttype: "float"
+					},
+					{
+						name: 'address',
+						index: 'address',
+						width: 200,
+						align: "right"
+					},
+					{
+						name: 'staffFlg',
+						index: 'staffFlg',
+						width: 100,
+						align: "center",
+						sorttype: "float"
+					},
+					{
+						name: 'entryTime',
+						index: 'entryTime',
+						width: 100,
+						formatter: isValidFmatter,
+						align: "center",
+						sortable: false
+					},
+					{
+						name: 'officialTime',
+						index: 'officialTime',
+						width: 100,
+						formatter: isValidFmatter,
+						align: "center",
+						sortable: false
+					},
+					{
+						name: 'dimissionTime',
+						index: 'dimissionTime',
+						width: 100,
+						formatter: isValidFmatter,
+						align: "center",
+						sortable: false
+					},
+					{
+						name: 'createTime',
+						index: 'createTime',
+						width: 100,
+						sorttype: "date",
+						formatter: "date",
+						align: "center",
+						sortable: false
+					},
+					{
+						name: 'createUser',
+						index: 'createUser',
+						width: 100,
+						align: "center",
+						sortable: false
+					},
+					{
+						name: 'updateTime',
+						index: 'updateTime',
+						width: 100,
+						sorttype: "date",
+						formatter: "date",
+						align: "center",
+						sortable: false
+					},
+					{
+						name: 'updateUser',
+						index: 'updateUser',
+						width: 100,
+						align: "center",
+						sortable: false
+					}
+				],
+				pager: "#pager_list_1",
+				viewrecords: true,
+				//caption: "jqGrid 示例1",
+				hidegrid: false
+			}).jqGrid('setFrozenColumns').triggerHandler("jqGridAfterGridComplete");
+		});
+	</script>
+</body>
+</html>

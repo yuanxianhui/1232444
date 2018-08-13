@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>菜单-编辑</title>
+<link rel="stylesheet" th:href="@{/css/showButton.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/bootstrap.min.css?v=3.3.6}">
+<link rel="stylesheet" th:href="@{/hplus/css/font-awesome.css?v=4.4.0}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/iCheck/custom.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/chosen/chosen.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/colorpicker/css/bootstrap-colorpicker.min.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/cropper/cropper.min.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/switchery/switchery.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/jasny/jasny-bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/nouslider/jquery.nouislider.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/datapicker/datepicker3.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/ionRangeSlider/ion.rangeSlider.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/clockpicker/clockpicker.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/animate.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/style.css?v=4.1.0}">
+</head>
+<body class="gray-bg">
+	<div class="modal-header" style="padding: 10px 15px;">
+		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		<div class="modal-title" style="font-size: 20px;">新增菜单</div>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal" id="addMenu">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label fill">菜单编号：</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="menuCode" name="menuCode" th:value="${data.menuCode}" placeholder="请输入菜单编号" onkeyup="grapheme_(this);" readonly="readonly">
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label fill">菜单名称：</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="menuName" name="menuName" th:value="${data.menuName}" placeholder="请输入菜单名称">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+				<div class="form-group ">
+					<label class="col-sm-2 control-label fill">请求URL：</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="menuUrl" name="menuUrl" th:value="${data.menuUrl}" placeholder="请输入URL" onkeyup="nochine(this);">
+					</div>
+				</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label fill">排序号：</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="serialNumber" name="serialNumber" th:value="${data.serialNumber}" placeholder="请输入排序号" onkeyup="numbern(this);">
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label">显示图标：</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="iconClass" name="iconClass" th:value="${data.iconClass}" placeholder="请输入图标编号" onkeyup="grapheme_(this);">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label">选择父菜单：</label>
+						<div class="col-sm-8">
+							<div class="input-group" style="width: 100%;">
+								<select id="menuFlag" name="menuFlag" data-placeholder="请选择父菜单" class="chosen-select" tabindex="2" disabled="disabled">
+									<option value="">请选择父菜单</option>
+									<option th:selected="${data.menuParent eq m}" th:each="m,obj:${menu}" th:value="${m}" th:text="${m}"></option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label">父菜单编号：</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="menuParent" name="menuParent"  th:value="${data.menuParent}" placeholder="请输入父菜单编号" onkeyup="grapheme_(this);">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label">菜单状态：</label>
+						<div class="col-sm-8">
+							<div class="input-group" style="width: 100%;">
+								<select id="validateFlag" name="validateFlag" data-placeholder="请选择菜单状态" class="chosen-select" tabindex="2">
+									<option th:selected="${data.validateFlag eq m.key}" th:each="m,obj:${validateFlag}" th:value="${m.key}" th:text="${m.value}"></option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6" style="text-align: right;">
+					<div class="checkbox checkbox-primary">
+						<input id="checkbox2" type="checkbox" checked="checked">
+						<label for="checkbox2" class="fill">是否为父菜单(默认勾选为新增父菜单)</label>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+		<button type="button" class="btn btn-primary" id="B_BASE_INFO_MENU_SAVE">保存</button>
+	</div>
+	
+	<!-- 全局js -->
+	<script type="text/javascript" th:src="@{/hplus/js/jquery.min.js?v=2.1.4}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/bootstrap.min.js?v=3.3.6}"></script>
+	<!-- Chosen -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/chosen/chosen.jquery.js}"></script>
+	<!-- JSKnob -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/jsKnob/jquery.knob.js}"></script>
+	<!-- Input Mask-->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/jasny/jasny-bootstrap.min.js}"></script>
+	<!-- Data picker -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/datapicker/bootstrap-datepicker.js}"></script>
+	<!-- Prettyfile -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/prettyfile/bootstrap-prettyfile.js}"></script>
+	<!-- Switchery -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/switchery/switchery.js}"></script>
+	<!-- IonRangeSlider -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/ionRangeSlider/ion.rangeSlider.min.js}"></script>
+	<!-- iCheck -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/iCheck/icheck.min.js}"></script>
+	<!-- MENU -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+	<!-- Color picker -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/colorpicker/bootstrap-colorpicker.min.js}"></script>
+	<!-- Clock picker -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/clockpicker/clockpicker.js}"></script>
+	<!-- Image cropper -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/cropper/cropper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/demo/form-advanced-demo.js}"></script>
+	<!-- jQuery Validation plugin javascript-->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/validate/jquery.validate.min.js}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/validate/messages_zh.min.js}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/demo/form-validate-demo.js}"></script>
+	
+	<script type="text/javascript" th:src="@{/js/bolue.js}"></script>
+	
+	<script type="text/javascript">
+		$(function(){
+			// jQuery validate
+			$("#addMenu").validate({
+				rules: {//设置必填项
+					menuCode: {
+						required: true,
+						maxlength: 20
+					},
+					menuName: {
+						required: true,
+						maxlength: 20
+					},
+					menuUrl: {
+						maxlength: 50
+					},
+					serialNumber: {
+						required: true,
+						maxlength: 2
+					},
+					iconClass: {
+						maxlength: 60
+					},
+					menuParent: {
+						maxlength: 20
+					}
+				},
+				messages: {
+					menuCode: {
+						required: "请输入菜单编号",
+						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
+					},
+					menuName: {
+						required: "请输入菜单名称",
+						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
+					},
+					menuUrl: {
+						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
+					},
+					serialNumber: {
+						required: "请输入排序号",
+						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
+					},
+					iconClass: {
+						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
+					},
+					menuParent: {
+						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
+					}
+				},
+				submitHandler: function(form){
+					var data = $("#addMenu").serialize();
+					$.ajax({
+						type: "post",
+						url: "baseinfo/menu/saveup",
+						data: data,
+						dataType: "json",
+						success: function(data){
+							if(data.success){
+								window.parent.showMsgSuccess("成功提示", data.errorMessage);
+							}else{
+								window.parent.showMsg("异常提示", data.errorMessage);
+							}
+						},
+						error: function(error){
+							console.log(error);
+						}
+					});
+				},
+				invalidHandler: function(form, validator) {  //不通过回调
+					return false;
+				}
+			});
+			
+			$("#B_BASE_INFO_MENU_SAVE").click(function(){
+				$("#addMenu").submit();
+			});
+			
+			//是否为父菜单：勾选：父菜单，不勾选：子菜单
+			$("#checkbox2").on("click", function(){
+				if($("#checkbox2").is(':checked')){
+					$("#menuFlag").attr("disabled", "disabled");
+					$("#menuParent").attr("readonly", false);
+					$("#menuFlag").val("");
+				}else{
+					$("#menuFlag").removeAttr("disabled");
+					$("#menuParent").attr("readonly", true);
+					$("#menuParent").val("");
+				}
+				$("#menuFlag").trigger("chosen:updated");
+			});
+			
+			//设置下拉框宽度
+			$("#menuFlag_chosen").css("width","100%");
+			$("#validateFlag_chosen").css("width","100%");
+		})
+		
+		function isEmpty(obj){
+			
+			if(obj == null || obj == "" || obj == undefined){
+				return true;
+			}else{
+				return false
+			}
+		}
+		
+		
+	</script>
+</body>
+</html>

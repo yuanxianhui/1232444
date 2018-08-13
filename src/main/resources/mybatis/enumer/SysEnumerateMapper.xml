@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bolue.oa.mapper.enumer.SysEnumerateMapper" >
+  <resultMap id="BaseResultMap" type="com.bolue.oa.entity.enumer.SysEnumerate" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <id column="enum_code" property="enumCode" jdbcType="VARCHAR" />
+    <id column="enum_name" property="enumName" jdbcType="VARCHAR" />
+    <result column="validate_flag" property="validateFlag" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, enum_code, enum_name, validate_flag, create_time, create_user, update_time, update_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.bolue.oa.entity.enumer.SysEnumerateKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_enumerate
+    where id = #{id,jdbcType=BIGINT}
+      and enum_code = #{enumCode,jdbcType=VARCHAR}
+      and enum_name = #{enumName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.bolue.oa.entity.enumer.SysEnumerateKey" >
+    delete from sys_enumerate
+    where id = #{id,jdbcType=BIGINT}
+      and enum_code = #{enumCode,jdbcType=VARCHAR}
+      and enum_name = #{enumName,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bolue.oa.entity.enumer.SysEnumerate" >
+    insert into sys_enumerate (id, enum_code, enum_name, 
+      validate_flag, create_time, create_user, 
+      update_time, update_user)
+    values (#{id,jdbcType=BIGINT}, #{enumCode,jdbcType=VARCHAR}, #{enumName,jdbcType=VARCHAR}, 
+      #{validateFlag,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bolue.oa.entity.enumer.SysEnumerate" >
+    insert into sys_enumerate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="enumCode != null" >
+        enum_code,
+      </if>
+      <if test="enumName != null" >
+        enum_name,
+      </if>
+      <if test="validateFlag != null" >
+        validate_flag,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enumCode != null" >
+        #{enumCode,jdbcType=VARCHAR},
+      </if>
+      <if test="enumName != null" >
+        #{enumName,jdbcType=VARCHAR},
+      </if>
+      <if test="validateFlag != null" >
+        #{validateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bolue.oa.entity.enumer.SysEnumerate" >
+    update sys_enumerate
+    <set >
+      <if test="validateFlag != null" >
+        validate_flag = #{validateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+      and enum_code = #{enumCode,jdbcType=VARCHAR}
+      and enum_name = #{enumName,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bolue.oa.entity.enumer.SysEnumerate" >
+    update sys_enumerate
+    set validate_flag = #{validateFlag,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+      and enum_code = #{enumCode,jdbcType=VARCHAR}
+      and enum_name = #{enumName,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectEnumsByEnumCode" resultMap="BaseResultMap">
+    SELECT 
+      <include refid="Base_Column_List" /> 
+    FROM sys_enumerate 
+    WHERE 
+      validate_flag = 'Y' 
+    <if test="enumCode != null and enumCode != ''">
+      AND enum_code = #{enumCode,jdbcType=VARCHAR}
+    </if>
+  </select>
+</mapper>

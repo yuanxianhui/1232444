@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>hello world</title>
+</head>
+<body>
+hello world!
+<div th:text="${time}">你好世界！</div>
+<div style="color: #793333;">${time}</div>
+<div>今天是<span th:object="${href}">呵呵哒</span>,可以出去完了.</div>
+<a href="www.baidu.com" th:href="@{index}">跳转至index</a>
+<div th:object="${user}">
+	<p th:text="*{name}">姓名</p>
+	<p th:text="*{sex}">性别</p>
+	<input th:id="*{id}" th:value="*{name}">
+	<p th:if="*{id=='909090'}">返回值true</p>
+</div>
+<input type="button" value="点击返回json" th:onclick="'javascript:test()'">
+<input type="button" value="点击返回实体类" th:onclick="'javascript:test01()'">
+
+<script type="text/javascript" th:src="@{/js/jQuery-3.3.1.js}"></script>
+<script type="text/javascript">
+
+function test(){
+	console.log("火影忍者");
+	
+	$.ajax({
+		url: "/data",
+		type: "post",
+		dataType: "json",
+		success: function(data){
+			console.log("data",data);
+		},
+	});
+	
+}
+function test01(){
+	console.log("火影忍者");
+	
+	$.ajax({
+		url: "/data01",
+		type: "post",
+		dataType: "json",
+		success: function(data){
+			console.log("data",data);
+		},
+	});
+	
+}
+</script>
+</body>
+</html>

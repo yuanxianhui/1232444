@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bolue.oa.system.dto.SysButtonMapper" >
+  <resultMap id="BaseResultMap" type="com.bolue.oa.system.entity.SysButton" >
+    <id column="button_code" property="buttonCode" jdbcType="VARCHAR" />
+    <result column="button_name" property="buttonName" jdbcType="VARCHAR" />
+    <result column="button_url" property="buttonUrl" jdbcType="VARCHAR" />
+    <result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
+    <result column="validate_flag" property="validateFlag" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    button_code, button_name, button_url, menu_code, validate_flag, create_time, create_user, 
+    update_time, update_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_button
+    where button_code = #{buttonCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_button
+    where button_code = #{buttonCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bolue.oa.system.entity.SysButton" >
+    insert into sys_button (button_code, button_name, button_url, 
+      menu_code, validate_flag, create_time, 
+      create_user, update_time, update_user
+      )
+    values (#{buttonCode,jdbcType=VARCHAR}, #{buttonName,jdbcType=VARCHAR}, #{buttonUrl,jdbcType=VARCHAR}, 
+      #{menuCode,jdbcType=VARCHAR}, #{validateFlag,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bolue.oa.system.entity.SysButton" >
+    insert into sys_button
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="buttonCode != null" >
+        button_code,
+      </if>
+      <if test="buttonName != null" >
+        button_name,
+      </if>
+      <if test="buttonUrl != null" >
+        button_url,
+      </if>
+      <if test="menuCode != null" >
+        menu_code,
+      </if>
+      <if test="validateFlag != null" >
+        validate_flag,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="buttonCode != null" >
+        #{buttonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="buttonName != null" >
+        #{buttonName,jdbcType=VARCHAR},
+      </if>
+      <if test="buttonUrl != null" >
+        #{buttonUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuCode != null" >
+        #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="validateFlag != null" >
+        #{validateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bolue.oa.system.entity.SysButton" >
+    update sys_button
+    <set >
+      <if test="buttonName != null" >
+        button_name = #{buttonName,jdbcType=VARCHAR},
+      </if>
+      <if test="buttonUrl != null" >
+        button_url = #{buttonUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuCode != null" >
+        menu_code = #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="validateFlag != null" >
+        validate_flag = #{validateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where button_code = #{buttonCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bolue.oa.system.entity.SysButton" >
+    update sys_button
+    set button_name = #{buttonName,jdbcType=VARCHAR},
+      button_url = #{buttonUrl,jdbcType=VARCHAR},
+      menu_code = #{menuCode,jdbcType=VARCHAR},
+      validate_flag = #{validateFlag,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where button_code = #{buttonCode,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectButtonInfoByAccount" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT
+      t6.button_code, 
+      t6.button_name, 
+      t6.button_url, 
+      t6.menu_code, 
+      t6.validate_flag, 
+      t6.create_time, 
+      t6.create_user, 
+      t6.update_time, 
+      t6.update_user
+    FROM
+      sys_account t1
+    INNER JOIN sys_account_user_relation t2 ON t1.account_code = t2.account_code AND t2.validate_flag = 'Y'
+    LEFT JOIN sys_user_department_relation t3 ON t2.user_code = t3.user_code AND t3.validate_flag = 'Y'
+    LEFT JOIN sys_department_menu_relation t4 ON t3.department_code = t4.department_code AND t4.validate_flag = 'Y'
+    LEFT JOIN sys_menu t5 ON t4.menu_code = t5.menu_code AND t5.validate_flag = 'Y'
+    INNER JOIN sys_button t6 ON t5.menu_code = t6.menu_code AND t6.validate_flag = 'Y'
+    WHERE
+     t1.locked = '0'
+    AND t1.account_code = #{accountCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectButtonInfosByForm" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_button
+    where 1=1
+      <if test="data.buttonCode != null and data.buttonCode != ''" >
+        and button_code like CONCAT('%',#{data.buttonCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="data.buttonName != null and data.buttonName != ''" >
+        and button_name like CONCAT('%',#{data.buttonName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="data.buttonUrl != null and data.buttonUrl != ''" >
+        and button_url = #{data.buttonUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="data.menuCode != null and data.menuCode != ''" >
+        and menu_code = #{data.menuCode,jdbcType=VARCHAR}
+      </if>
+      <if test="data.validateFlag != null and data.validateFlag != ''" >
+        and validate_flag = #{data.validateFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="data.createTime != null and data.createTime != ''" >
+        and create_time = #{data.createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="data.createUser != null and data.createUser != ''" >
+        and create_user = #{data.createUser,jdbcType=VARCHAR}
+      </if>
+      <if test="data.updateTime != null and data.updateTime != ''" >
+        and update_time = #{data.updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="data.updateUser != null and data.updateUser != ''" >
+        and update_user = #{data.updateUser,jdbcType=VARCHAR}
+      </if>
+  </select>
+</mapper>

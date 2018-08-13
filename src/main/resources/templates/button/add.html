@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>按钮-新增</title>
+<link rel="stylesheet" th:href="@{/css/showButton.css}">
+
+<link rel="stylesheet" th:href="@{/hplus/css/bootstrap.min.css?v=3.3.6}">
+<link rel="stylesheet" th:href="@{/hplus/css/font-awesome.css?v=4.4.0}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/iCheck/custom.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/chosen/chosen.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/colorpicker/css/bootstrap-colorpicker.min.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/cropper/cropper.min.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/switchery/switchery.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/jasny/jasny-bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/nouslider/jquery.nouislider.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/datapicker/datepicker3.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/ionRangeSlider/ion.rangeSlider.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/clockpicker/clockpicker.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/animate.css}">
+<link rel="stylesheet" th:href="@{/hplus/css/style.css?v=4.1.0}">
+</head>
+<body class="gray-bg">
+	<div class="button-row">
+		<button type="button" class="btn btn-primary" id="B_BASE_INFO_BUTTON_SAVE"><i class="fa fa-save"></i> 保存</button>
+		<button type="button" class="btn btn-primary" id="B_BASE_INFO_BUTTON_BACK"><i class="fa fa-reply"></i> 返回</button>
+	</div>
+	<div class="white-bg show-area" style="padding-top: 10px;">
+		<div class="container">
+			<form class="form-horizontal" id="addButton">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label class="col-sm-4 control-label fill">菜单名称：</label>
+							<div class="col-sm-8">
+								<div class="input-group" style="width: 100%;">
+									<select id="menuCode" name="menuCode" data-placeholder="请选择菜单名称" class="chosen-select" tabindex="2" onchange="chooseMenu(this);">
+										<option value="">请选择菜单名称</option>
+										<option th:each="m,obj:${menuparent}" th:value="${m.key}" th:text="${m.value}"></option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label class="col-sm-4 control-label fill">按钮编号：</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="buttonCode" name="buttonCode" placeholder="请输入按钮编号" onkeyup="grapheme_(this);">
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label class="col-sm-4 control-label fill">按钮名称：</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="buttonName" name="buttonName" placeholder="请输入按钮名称">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label class="col-sm-4 control-label fill">按钮状态：</label>
+							<div class="col-sm-8">
+								<div class="input-group" style="width: 100%;">
+									<select id="validateFlag" name="validateFlag" data-placeholder="请选择按钮状态" class="chosen-select" tabindex="2">
+										<option th:selected="${m.key eq 'Y'}" th:each="m,obj:${validateFlag}" th:value="${m.key}" th:text="${m.value}"></option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="form-group">
+							<label class="col-sm-2 control-label fill">请求URL：</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="buttonUrl" name="buttonUrl" placeholder="请输入请求URL" onkeyup="nochine(this);">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- 全局js -->
+	<script type="text/javascript" th:src="@{/hplus/js/jquery.min.js?v=2.1.4}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/bootstrap.min.js?v=3.3.6}"></script>
+	<!-- Chosen -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/chosen/chosen.jquery.js}"></script>
+	<!-- JSKnob -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/jsKnob/jquery.knob.js}"></script>
+	<!-- Input Mask-->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/jasny/jasny-bootstrap.min.js}"></script>
+	<!-- Data picker -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/datapicker/bootstrap-datepicker.js}"></script>
+	<!-- Prettyfile -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/prettyfile/bootstrap-prettyfile.js}"></script>
+	<!-- Switchery -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/switchery/switchery.js}"></script>
+	<!-- IonRangeSlider -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/ionRangeSlider/ion.rangeSlider.min.js}"></script>
+	<!-- iCheck -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/iCheck/icheck.min.js}"></script>
+	<!-- MENU -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+	<!-- Color picker -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/colorpicker/bootstrap-colorpicker.min.js}"></script>
+	<!-- Clock picker -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/clockpicker/clockpicker.js}"></script>
+	<!-- Image cropper -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/cropper/cropper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/demo/form-advanced-demo.js}"></script>
+	<!-- 自定义 -->
+	<script type="text/javascript" th:src="@{/js/bolue.js}"></script>
+	<!-- jQuery Validation plugin javascript-->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/validate/jquery.validate.min.js}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/validate/messages_zh.min.js}"></script>
+	<script type="text/javascript" th:src="@{/hplus/js/demo/form-validate-demo.js}"></script>
+	
+	<script type="text/javascript">
+		$(function(){
+			// jQuery validate
+			$("#addButton").validate({
+				rules: {//设置必填项
+					menucode: {
+						required: true
+					},
+					buttonCode: {
+						required: true,
+						maxlength: 30
+					},
+					buttonName: {
+						required: true,
+						maxlength: 30
+					},
+					validateFlag: {
+						required: true
+					},
+					buttonUrl: {
+						required: true,
+						maxlength: 300
+					}
+				},
+				messages: {
+					menuCode: {
+						required: "请选择菜单"
+					},
+					buttonCode: {
+						required: "请输入按钮编号",
+						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
+					},
+					buttonName: {
+						required: "请输入按钮名称",
+						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
+					},
+					validateFlag: {
+						required: "请选择按钮状态"
+					},
+					buttonUrl: {
+						required: "请输入按钮URL",
+						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
+					}
+				},
+				submitHandler: function(form){
+					var data = $("#addButton").serialize();
+					$.ajax({
+						type: "post",
+						url: "/baseinfo/button/save",
+						data: data,
+						dataType: "json",
+						success: function(data){
+							console.log(data);
+							if(data.success){
+								window.parent.showMsgSuccess("成功提示", data.errorMessage);
+							}else{
+								window.parent.showMsg("异常提示", data.errorMessage);
+							}
+						},
+						error: function(error){
+							
+						}
+					});
+				},
+				invalidHandler: function(form, validator) {  //不通过回调
+					return false;
+				}
+			});
+			
+			//保存
+			$("#B_BASE_INFO_BUTTON_SAVE").click(function(){
+				$("#addButton").submit();
+			});
+			//返回
+			$("#B_BASE_INFO_BUTTON_BACK").click(function(){
+				window.location.href="/baseinfo/button/list";
+			});
+			
+			//下拉框宽度设置
+			$("#menuCode_chosen").css("width","100%");
+			$("#validateFlag_chosen").css("width","100%");
+		})
+		
+		//选择菜单
+		function chooseMenu(obj){
+			//清空其他项目
+			$("#buttonCode").val("");
+			$("#buttonName").val("");
+			$("#buttonUrl").val("");
+		}
+		
+	</script>
+</body>
+</html>
