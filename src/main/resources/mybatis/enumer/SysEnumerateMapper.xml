@@ -18,15 +18,12 @@
     select 
     <include refid="Base_Column_List" />
     from sys_enumerate
-    where id = #{id,jdbcType=BIGINT}
-      and enum_code = #{enumCode,jdbcType=VARCHAR}
-      and enum_name = #{enumName,jdbcType=VARCHAR}
+    where
+      enum_code = #{enumCode,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="com.bolue.oa.entity.enumer.SysEnumerateKey" >
     delete from sys_enumerate
-    where id = #{id,jdbcType=BIGINT}
-      and enum_code = #{enumCode,jdbcType=VARCHAR}
-      and enum_name = #{enumName,jdbcType=VARCHAR}
+    where enum_code = #{enumCode,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.bolue.oa.entity.enumer.SysEnumerate" >
     insert into sys_enumerate (id, enum_code, enum_name, 
@@ -94,6 +91,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.bolue.oa.entity.enumer.SysEnumerate" >
     update sys_enumerate
     <set >
+      <if test="enumName != null" >
+        enum_name = #{enumName,jdbcType=VARCHAR},
+      </if>
       <if test="validateFlag != null" >
         validate_flag = #{validateFlag,jdbcType=VARCHAR},
       </if>
@@ -110,9 +110,7 @@
         update_user = #{updateUser,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
-      and enum_code = #{enumCode,jdbcType=VARCHAR}
-      and enum_name = #{enumName,jdbcType=VARCHAR}
+    where enum_code = #{enumCode,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bolue.oa.entity.enumer.SysEnumerate" >
     update sys_enumerate
@@ -135,5 +133,23 @@
     <if test="enumCode != null and enumCode != ''">
       AND enum_code = #{enumCode,jdbcType=VARCHAR}
     </if>
+  </select>
+  <select id="selectEnuInfosByForm" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_enumerate
+    where 1=1
+      <if test="data.id != null and data.id != ''" >
+        and id = #{data.id,jdbcType=BIGINT}
+      </if>
+      <if test="data.enumCode != null and data.enumCode != ''" >
+        and enum_code like CONCAT('%',#{data.enumCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="data.enumName != null and data.enumName != ''" >
+        and enum_name like CONCAT('%',#{data.enumName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="data.validateFlag != null and data.validateFlag != ''" >
+        and validate_flag = #{data.validateFlag,jdbcType=VARCHAR}
+      </if>
   </select>
 </mapper>

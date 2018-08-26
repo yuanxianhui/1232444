@@ -1,9 +1,7 @@
 package com.bolue.oa.service.impl;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -12,61 +10,60 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bolue.oa.mapper.enumer.SysEnumerateMapper;
 import com.bolue.oa.entity.enumer.SysEnumerate;
 import com.bolue.oa.entity.enumer.SysEnumerateDetailed;
 import com.bolue.oa.entity.enumer.SysEnumerateDetailedKey;
 import com.bolue.oa.entity.enumer.SysEnumerateKey;
 import com.bolue.oa.mapper.enumer.SysEnumerateDetailedMapper;
-import com.bolue.oa.service.SysEnumerateService;
+import com.bolue.oa.service.SysEnumerateDetailedService;
 import com.bolue.oa.util.BaseResultCode;
 import com.bolue.oa.util.ResultDO;
 
-import net.sf.json.JSONObject;
-
 @Service
-public class SysEnumerateServiceImpl implements SysEnumerateService {
+public class SysEnumerateDetailedServiceImpl implements SysEnumerateDetailedService {
 
-	@Autowired
-	private SysEnumerateMapper sysEnumerateMapper;
 	@Autowired
 	private SysEnumerateDetailedMapper sysEnumerateDetailedMapper;
 	
 	/**
-	 * 获取枚举类型列表集合
-	 * @param data
+	 * 根据枚举类型编号获取对应枚举明细信息
+	 * @param enumCode
 	 * @return
 	 */
 	@Override
-	public ResultDO<List<SysEnumerate>> getEnuInfos(SysEnumerate data) {
-		ResultDO<List<SysEnumerate>> result = new ResultDO<List<SysEnumerate>>();
-		
+	public ResultDO<List<SysEnumerateDetailed>> getEnuDInfos(String enumCode, String code) {
+		ResultDO<List<SysEnumerateDetailed>> result = new ResultDO<List<SysEnumerateDetailed>>();
 		try {
-			List<SysEnumerate> list = sysEnumerateMapper.selectEnuInfosByForm(data);
-			if (list.size() > 0) {
+			SysEnumerateDetailed data =new SysEnumerateDetailed();
+			data.setEunmCode(enumCode);
+			data.setCode(code);
+			List<SysEnumerateDetailed> list = sysEnumerateDetailedMapper.selectEnuDinfos(data);
+			if(list.size() > 0) {
 				result.setModule(list);
 				result.setSuccess(Boolean.TRUE);
-			} else {
-				return new ResultDO<List<SysEnumerate>>(BaseResultCode.DATA_NIL, Boolean.FALSE);
+			}else {
+				return new ResultDO<List<SysEnumerateDetailed>>(BaseResultCode.DATA_NIL, Boolean.FALSE);
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResultDO<List<SysEnumerate>>(BaseResultCode.COMMON_FAIL, Boolean.FALSE);
+			return new ResultDO<List<SysEnumerateDetailed>>(BaseResultCode.COMMON_FAIL, Boolean.FALSE);
 		}
 		return result;
 	}
-
+	
 	/**
-	 * 保存枚举类型
+	 * 保存枚举明细信息
 	 * @param data
 	 * @return
 	 */
 	@Override
 	@Transactional
-	public ResultDO<String> saveEnuInfo(SysEnumerate data) {
+	public ResultDO<String> saveEnudInfo(SysEnumerateDetailed data) {
 		try {
-			SysEnumerate enu = sysEnumerateMapper.selectByPrimaryKey(data);
+			SysEnumerateDetailedKey key = new SysEnumerateDetailedKey();
+			key.setEunmCode(data.getEunmCode());
+			key.setCode(data.getCode());
+			SysEnumerateDetailed enu = sysEnumerateDetailedMapper.selectByPrimaryKey(key);
 			if (enu != null) {
 				return new ResultDO<String>(BaseResultCode.DATA_REPEAT, Boolean.FALSE);
 			}
@@ -75,8 +72,8 @@ public class SysEnumerateServiceImpl implements SysEnumerateService {
 			data.setCreateUser(account);
 			data.setUpdateUser(account);
 			
-			int ups = sysEnumerateMapper.insertSelective(data);
-			if (ups > 0) {
+			int ins = sysEnumerateDetailedMapper.insertSelective(data);
+			if (ins > 0) {
 				return new ResultDO<String>(BaseResultCode.SAVE_SUCCESS, Boolean.TRUE);
 			} else {
 				throw new Exception("in_exception");
@@ -96,33 +93,33 @@ public class SysEnumerateServiceImpl implements SysEnumerateService {
 	}
 
 	/**
-	 * 根据枚举类型编号获取信息
+	 * 获取枚举明细信息
 	 * @param enumCode
+	 * @param code
 	 * @return
 	 */
 	@Override
-	public SysEnumerate getEnuInfo(String enumCode) {
-		SysEnumerate result = new SysEnumerate();
-		try {
-			SysEnumerateKey data = new SysEnumerateKey();
-			data.setEnumCode(enumCode);
-			result = sysEnumerateMapper.selectByPrimaryKey(data);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public SysEnumerateDetailed getEnudInfo(String enumCode, String code) {
+		SysEnumerateDetailedKey key = new SysEnumerateDetailedKey();
+		key.setEunmCode(enumCode);
+		key.setCode(code);
+		SysEnumerateDetailed result = sysEnumerateDetailedMapper.selectByPrimaryKey(key);
 		return result;
 	}
 
 	/**
-	 * 更新枚举类型
+	 * 更新枚举明细信息
 	 * @param data
 	 * @return
 	 */
 	@Override
 	@Transactional
-	public ResultDO<String> saveupEnuInfo(SysEnumerate data) {
+	public ResultDO<String> saveupEnudInfo(SysEnumerateDetailed data) {
 		try {
-			SysEnumerate enu = sysEnumerateMapper.selectByPrimaryKey(data);
+			SysEnumerateDetailedKey key = new SysEnumerateDetailedKey();
+			key.setEunmCode(data.getEunmCode());
+			key.setCode(data.getCode());
+			SysEnumerateDetailed enu = sysEnumerateDetailedMapper.selectByPrimaryKey(key);
 			if (enu == null) {
 				return new ResultDO<String>(BaseResultCode.DATA_NIL, Boolean.FALSE);
 			}
@@ -130,7 +127,7 @@ public class SysEnumerateServiceImpl implements SysEnumerateService {
 			String account = (String)subject.getPrincipal();
 			data.setUpdateUser(account);
 			
-			int ups = sysEnumerateMapper.updateByPrimaryKeySelective(data);
+			int ups = sysEnumerateDetailedMapper.updateByPrimaryKeySelective(data);
 			if (ups > 0) {
 				return new ResultDO<String>(BaseResultCode.SAVE_SUCCESS, Boolean.TRUE);
 			} else {
@@ -151,18 +148,19 @@ public class SysEnumerateServiceImpl implements SysEnumerateService {
 	}
 
 	/**
-	 * 删除枚举类型
-	 * @param enumCode
+	 * 删除枚举明细信息
+	 * @param data
 	 * @return
 	 */
 	@Override
 	@Transactional
-	public ResultDO<String> removeEnuInfo(String enumCode) {
+	public ResultDO<String> removeEnudInfo(SysEnumerateDetailed data) {
 		try {
-			SysEnumerateKey data = new SysEnumerateKey();
-			data.setEnumCode(enumCode);
-			int ups = sysEnumerateMapper.deleteByPrimaryKey(data);
-			if (ups > 0) {
+			SysEnumerateDetailedKey key = new SysEnumerateDetailedKey();
+			key.setEunmCode(data.getEunmCode());
+			key.setCode(data.getCode());
+			int del = sysEnumerateDetailedMapper.deleteByPrimaryKey(key);
+			if (del > 0) {
 				return new ResultDO<String>(BaseResultCode.DEL_SUCCESS, Boolean.TRUE);
 			} else {
 				throw new Exception("del_exception");

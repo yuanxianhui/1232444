@@ -3,7 +3,7 @@
 **/
 .button-row{
     position:fixed;
-    z-index:14;
+    z-index:10;
     top:0em;
     left:0em;
     bottom:0em;

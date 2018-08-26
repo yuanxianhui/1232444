@@ -23,8 +23,8 @@ public class RegisterController {
 	 * 初始化注册界面
 	 * @return
 	 */
-	@RequestMapping(value="list")
-	public String list() {
+	@RequestMapping(value="index")
+	public String index() {
 		System.out.println("@@@@@@@@");
 		return "register/register";
 	}

@@ -38,3 +38,35 @@ function isNuZiMu(obj){
 function isMobile(obj){
 	if(obj.value=="")return;if(obj.value==obj.value2)return;if(obj.value.search(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/)==-1)obj.value=(obj.value2)?obj.value2:'';else obj.value2=obj.value;
 }
+//格式化性别
+function isSexFmatter(obj){
+	if(obj == "0")return "女";if(obj == "1")return "男";
+}
+//格式化员工状态
+function staffFmatter(obj){
+	if(obj=="0")return "试用期";if(obj=="1")return "正式员工";if(obj=="2")return "已离职";
+}
+//对Date的扩展，将 Date 转化为指定格式的String   
+//月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，   
+//年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)   
+//例子：   
+//(new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423   
+//(new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18   
+Date.prototype.Format = function(fmt)   
+{ //author: meizz   
+var o = {   
+ "M+" : this.getMonth()+1,                 //月份   
+ "d+" : this.getDate(),                    //日   
+ "h+" : this.getHours(),                   //小时   
+ "m+" : this.getMinutes(),                 //分   
+ "s+" : this.getSeconds(),                 //秒   
+ "q+" : Math.floor((this.getMonth()+3)/3), //季度   
+ "S"  : this.getMilliseconds()             //毫秒   
+};   
+if(/(y+)/.test(fmt))   
+ fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+for(var k in o)   
+ if(new RegExp("("+ k +")").test(fmt))   
+fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+return fmt;   
+}

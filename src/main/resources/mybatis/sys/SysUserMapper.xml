@@ -256,4 +256,55 @@
       t1.locked = '0'
     AND t1.account_code = #{accountCode}
   </select>
+  <select id="selectUserInfosByForm" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where 1=1
+      <if test="data.userCode != null and data.userCode != ''">
+        and user_code like CONCAT('%',#{data.userCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="data.userName != null and data.userName != ''" >
+        and user_name like CONCAT('%',#{data.userName,jdbcType=VARCHAR},'%') 
+      </if>
+      <if test="data.accountCode != null and data.accountCode != ''" >
+        and account_code like CONCAT('%',#{data.accountCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="data.userSex != null and data.userSex != ''" >
+        and user_sex = #{data.userSex,jdbcType=VARCHAR}
+      </if>
+      <if test="data.phoneNumber != null and data.phoneNumber != ''" >
+        and phone_number = #{data.phoneNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="data.userCardId != null and data.userCardId != ''" >
+        and user_card_id = #{data.userCardId,jdbcType=VARCHAR}
+      </if>
+      <if test="data.provinceCode != null and data.provinceCode != ''" >
+        and province_code = #{data.provinceCode,jdbcType=VARCHAR}
+      </if>
+      <if test="data.cityCode != null and data.cityCode != ''" >
+        and city_code = #{data.cityCode,jdbcType=VARCHAR}
+      </if>
+      <if test="data.areaCode != null and data.areaCode != ''" >
+        and area_code = #{data.areaCode,jdbcType=VARCHAR}
+      </if>
+      <if test="data.address != null and data.address != ''" >
+        and address = #{data.address,jdbcType=VARCHAR}
+      </if>
+      <if test="data.staffFlg != null and data.staffFlg != ''" >
+        and staff_flg = #{data.staffFlg,jdbcType=VARCHAR}
+      </if>
+      <if test="data.entryTime != null" >
+        and DATE_FORMAT(entry_time, "%Y-%m-%d") = DATE_FORMAT(#{data.entryTime,jdbcType=TIMESTAMP}, "%Y-%m-%d")
+      </if>
+      <if test="data.officialTime != null" >
+        and DATE_FORMAT(official_time, "%Y-%m-%d") = DATE_FORMAT(#{data.officialTime,jdbcType=TIMESTAMP}, "%Y-%m-%d")
+      </if>
+      <if test="data.dimissionTime != null" >
+        and DATE_FORMAT(dimission_time, "%Y-%m-%d") = DATE_FORMAT(#{data.dimissionTime,jdbcType=TIMESTAMP}, "%Y-%m-%d")
+      </if>
+      <if test="data.validateFlag != null and data.validateFlag != ''" >
+        and validate_flag = #{data.validateFlag,jdbcType=VARCHAR}
+      </if>
+  </select>
 </mapper>

@@ -54,7 +54,9 @@ public class CommonData implements Common {
 		ResultDO<Map<?, ?>> result = new ResultDO<Map<?, ?>>();
 		try {
 			List<SysEnumerate> parents = SysEnumerateMapper.selectEnumsByEnumCode(enumCode);
-			List<SysEnumerateDetailed> subs = SysEnumerateDetailedMapper.selectEnumsByEnumCode(enumCode);
+			SysEnumerateDetailed info = new SysEnumerateDetailed();
+			info.setEunmCode(enumCode);
+			List<SysEnumerateDetailed> subs = SysEnumerateDetailedMapper.selectEnuDinfos(info);
 			Map<String, Map<?, ?>> parentmap = new HashMap<String, Map<?, ?>>();
 			for(SysEnumerate parent:parents) {
 				JSONObject jsonobj = new JSONObject();

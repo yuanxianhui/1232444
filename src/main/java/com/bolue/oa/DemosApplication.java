@@ -23,17 +23,17 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.bolue.oa.system.MyFilter;
 
 //@SpringBootApplication
 @ComponentScan(basePackages = "com.bolue.oa")
-@MapperScan(basePackages = { "com.bolue.oa.system.dto.**", "com.bolue.oa.mapper.**" })
+@MapperScan(basePackages = {"com.bolue.oa.mapper.enumer.**", "com.bolue.oa.system.dto.**"})
 @Configuration
 @ServletComponentScan //扫描监听器
 @EnableAutoConfiguration
-@EnableTransactionManagement // 启用事物管理
 public class DemosApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DemosApplication.class, args);

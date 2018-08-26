@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>菜单-新增</title>
+<title>枚举明细-编辑</title>
 <link rel="stylesheet" th:href="@{/css/showButton.css}">
 <link rel="stylesheet" th:href="@{/hplus/css/bootstrap.min.css?v=3.3.6}">
 <link rel="stylesheet" th:href="@{/hplus/css/font-awesome.css?v=4.4.0}">
@@ -25,52 +25,24 @@
 <body class="gray-bg">
 	<div class="modal-header" style="padding: 10px 15px;">
 		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		<div class="modal-title" style="font-size: 20px;">新增菜单</div>
+		<div class="modal-title" style="font-size: 20px;">新增枚举类型</div>
 	</div>
 	<div class="modal-body">
-		<form class="form-horizontal" id="addMenu">
+		<form class="form-horizontal" id="upEnu">
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label class="col-sm-4 control-label fill">菜单编号：</label>
+						<label class="col-sm-4 control-label fill">枚举类型编号：</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" id="menuCode" name="menuCode" placeholder="请输入菜单编号" maxlength="20" onkeyup="grapheme_(this);">
+							<input type="text" class="form-control" id="eunmCode" name="eunmCode" th:value="${data.eunmCode}" placeholder="请输入枚举编号" maxlength="30" onkeyup="grapheme_(this);" readonly="readonly">
 						</div>
 					</div>
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label class="col-sm-4 control-label fill">菜单名称：</label>
+						<label class="col-sm-4 control-label fill">编号：</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" id="menuName" name="menuName" maxlength="20" placeholder="请输入菜单名称">
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-12">
-				<div class="form-group ">
-					<label class="col-sm-2 control-label fill">请求URL：</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="menuUrl" name="menuUrl" placeholder="请输入URL" maxlength="50" onkeyup="nochine(this);">
-					</div>
-				</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label class="col-sm-4 control-label fill">排序号：</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control" id="serialNumber" name="serialNumber" placeholder="请输入排序号" maxlength="11" onkeyup="numbern(this);">
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label class="col-sm-4 control-label">显示图标：</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control" id="iconClass" name="iconClass" placeholder="请输入图标编号" maxlength="60" onkeyup="grapheme_(this);">
+							<input type="text" class="form-control" id="code" name="code" th:value="${data.code}" maxlength="2" placeholder="请输入编号" readonly="readonly">
 						</div>
 					</div>
 				</div>
@@ -78,44 +50,22 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label class="col-sm-4 control-label">选择父菜单：</label>
+						<label class="col-sm-4 control-label fill">名称：</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="name" name="name" th:value="${data.name}" maxlength="30" placeholder="请输入名称">
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label">枚举状态：</label>
 						<div class="col-sm-8">
 							<div class="input-group" style="width: 100%;">
-								<select id="menuParent" name="menuParent" data-placeholder="请选择父菜单" class="chosen-select" tabindex="2" disabled="disabled">
-									<option value="">请选择父菜单</option>
-									<option th:each="m,obj:${menu}" th:value="${m}" th:text="${m}"></option>
+								<select id="validateFlag" name="validateFlag" data-placeholder="请选择枚举状态" class="chosen-select" tabindex="2">
+									<option th:selected="${m.key eq data.validateFlag}" th:each="m,obj:${validateFlag}" th:value="${m.key}" th:text="${m.value}"></option>
 								</select>
 							</div>
 						</div>
-					</div>
-				</div>
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label class="col-sm-4 control-label">父菜单编号：</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control" id="menuFlag" name="menuFlag" placeholder="请输入父菜单编号" maxlength="20" onkeyup="grapheme_(this);">
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label class="col-sm-4 control-label">菜单状态：</label>
-						<div class="col-sm-8">
-							<div class="input-group" style="width: 100%;">
-								<select id="validateFlag" name="validateFlag" data-placeholder="请选择菜单状态" class="chosen-select" tabindex="2">
-									<option th:selected="${m.key eq 'Y'}" th:each="m,obj:${validateFlag}" th:value="${m.key}" th:text="${m.value}"></option>
-								</select>
-							</div>
-						</div>
-					</div>
-				</div>
-			
-				<div class="col-sm-6" style="text-align: right;">
-					<div class="checkbox checkbox-primary">
-						<input id="checkbox2" type="checkbox" checked="checked">
-						<label for="checkbox2" class="fill">是否为父菜单(默认勾选为新增父菜单)</label>
 					</div>
 				</div>
 			</div>
@@ -123,7 +73,7 @@
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-		<button type="button" class="btn btn-primary" id="B_BASE_INFO_MENU_SAVE">保存</button>
+		<button type="button" class="btn btn-primary" id="B_BASE_INFO_ENUM_SAVED">保存</button>
 	</div>
 	
 	<!-- 全局js -->
@@ -164,58 +114,40 @@
 	<script type="text/javascript">
 		$(function(){
 			// jQuery validate
-			$("#addMenu").validate({
+			$("#upEnu").validate({
 				rules: {//设置必填项
-					menuCode: {
+					eunmCode: {
 						required: true,
-						maxlength: 20
+						maxlength: 30
 					},
-					menuName: {
-						required: true,
-						maxlength: 20
-					},
-					menuUrl: {
-						maxlength: 50
-					},
-					serialNumber: {
+					code: {
 						required: true,
 						maxlength: 2
 					},
-					iconClass: {
-						maxlength: 60
-					},
-					menuFlag: {
-						maxlength: 20
+					name: {
+						required: true,
+						maxlength: 30
 					}
 				},
 				messages: {
-					menuCode: {
-						required: "请输入菜单编号",
+					eunmCode: {
+						required: "请输入枚举编号",
 						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
 					},
-					menuName: {
-						required: "请输入菜单名称",
+					code: {
+						required: "请输入编号",
 						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
 					},
-					menuUrl: {
-						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
-					},
-					serialNumber: {
-						required: "请输入排序号",
-						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
-					},
-					iconClass: {
-						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
-					},
-					menuFlag: {
+					name: {
+						required: "请输入名称",
 						maxlength: $.validator.format("请输入长度为 {0} 以内的字符串"),
 					}
 				},
 				submitHandler: function(form){
-					var data = $("#addMenu").serialize();
+					var data = $("#upEnu").serialize();
 					$.ajax({
 						type: "post",
-						url: "baseinfo/menu/save",
+						url: "/baseinfo/enum/savedup",
 						data: data,
 						dataType: "json",
 						success: function(data){
@@ -235,24 +167,11 @@
 				}
 			});
 			
-			$("#B_BASE_INFO_MENU_SAVE").click(function(){
-				$("#addMenu").submit();
-			});
-			
-			//是否为父菜单：勾选：父菜单，不勾选：子菜单
-			$("#checkbox2").on("click", function(){
-				if($("#checkbox2").is(':checked')){
-					$("#menuFlag").attr("readonly", false);
-					$("#menuParent").attr("disabled", "disabled");
-				}else{
-					$("#menuFlag").attr("readonly", true);
-					$("#menuParent").removeAttr("disabled");
-				}
-				$("#menuParent").trigger("chosen:updated");
+			$("#B_BASE_INFO_ENUM_SAVED").click(function(){
+				$("#upEnu").submit();
 			});
 			
 			//设置下拉框宽度
-			$("#menuParent_chosen").css("width","100%");
 			$("#validateFlag_chosen").css("width","100%");
 		})
 		

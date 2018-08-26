@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>员工-新增</title>
+<title>员工-编辑</title>
 <link rel="stylesheet" th:href="@{/css/showButton.css}">
 
 <link rel="stylesheet" th:href="@{/hplus/css/bootstrap.min.css?v=3.3.6}">
@@ -30,7 +30,7 @@
 	</div>
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="white-bg show-area" style="padding-left: 15px;padding-right: 15px;">
-			<form class="form-horizontal m-t-md" id="addUser">
+			<form class="form-horizontal m-t-md" id="upUser">
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="ibox float-e-margins">
@@ -41,9 +41,9 @@
 											<label class="col-sm-3 control-label fill">账号：</label>
 											<div class="col-sm-8">
 												<div class="input-group" style="width: 100%;">
-													<select id="accountCode" name="accountCode" data-placeholder="请选择账号" class="chosen-select" tabindex="2">
+													<select id="accountCode" name="accountCode" th:value="${data.accountCode}" data-placeholder="请选择账号" class="chosen-select" tabindex="2">
 														<option value="">请选择账号</option>
-														<option th:each="m,obj:${accounts}" th:value="${m.accountCode}" th:text="${m.accountCode}"></option>
+														<option th:selected="${m.accountCode eq data.accountCode}" th:each="m,obj:${accounts}" th:value="${m.accountCode}" th:text="${m.accountCode}"></option>
 													</select>
 												</div>
 											</div>
@@ -55,7 +55,7 @@
 										<div class="form-group">
 											<label class="col-sm-3 control-label fill">工号：</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control" id="userCode" name="userCode" placeholder="请输入工号" onkeyup="isNuZiMu(this);">
+												<input type="text" class="form-control" id="userCode" name="userCode" th:value="${data.userCode}" placeholder="请输入工号" onkeyup="isNuZiMu(this);">
 											</div>
 										</div>
 									</div>
@@ -65,7 +65,7 @@
 										<div class="form-group">
 											<label class="col-sm-3 control-label fill">姓名：</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control" id="userName" name="userName" placeholder="请输入姓名">
+												<input type="text" class="form-control" id="userName" name="userName" th:value="${data.userName}" placeholder="请输入姓名">
 											</div>
 										</div>
 									</div>
@@ -76,9 +76,9 @@
 											<label class="col-sm-3 control-label fill">性别：</label>
 											<div class="col-sm-8">
 												<div class="input-group" style="width: 100%;">
-													<select id="userSex" name="userSex" data-placeholder="请选择性别" class="chosen-select" tabindex="2">
+													<select id="userSex" name="userSex" th:value="${data.userSex}" data-placeholder="请选择性别" class="chosen-select" tabindex="2">
 														<option value="">请选择性别</option>
-														<option th:each="m,obj:${sexFlag}" th:value="${m.key}" th:text="${m.value}"></option>
+														<option th:selected="${m.key eq data.userSex}" th:each="m,obj:${sexFlag}" th:value="${m.key}" th:text="${m.value}"></option>
 													</select>
 												</div>
 											</div>
@@ -92,7 +92,7 @@
 											<div class="col-sm-8">
 												<div class="input-group date">
 													<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-													<input type="text" class="form-control" id="entryTime" name="entryTime" placeholder="请选择入职时间">
+													<input type="text" class="form-control" id="entryTime" name="entryTime" th:value="${#dates.format(data.entryTime, 'yyyy-MM-dd')}" placeholder="请选择入职时间">
 												</div>
 											</div>
 										</div>
@@ -103,7 +103,7 @@
 										<div class="form-group">
 											<label class="col-sm-3 control-label fill">身份证号：</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control" id="userCardId" name="userCardId" placeholder="请输入身份证号" onchange="isCardID(this);">
+												<input type="text" class="form-control" id="userCardId" name="userCardId" th:value="${data.userCardId}" placeholder="请输入身份证号" onchange="isCardID(this);">
 											</div>
 										</div>
 									</div>
@@ -113,7 +113,7 @@
 										<div class="form-group">
 											<label class="col-sm-3 control-label fill">现住地址：</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control" id="address" name="address" placeholder="请输入现住地址">
+												<input type="text" class="form-control" id="address" name="address" th:value="${data.address}" placeholder="请输入现住地址">
 											</div>
 										</div>
 									</div>
@@ -129,7 +129,7 @@
 										<div class="form-group">
 											<label class="col-sm-3 control-label fill">手机号：</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="请输入手机号" onchange="isMobile(this);">
+												<input type="text" class="form-control" id="phoneNumber" name="phoneNumber" th:value="${data.phoneNumber}" placeholder="请输入手机号" onchange="isMobile(this);">
 											</div>
 										</div>
 									</div>
@@ -140,9 +140,9 @@
 											<label class="col-sm-3 control-label">省：</label>
 											<div class="col-sm-8">
 												<div class="input-group" style="width: 100%;">
-													<select id="provinceCode" name="provinceCode" data-placeholder="请选择省份" class="chosen-select" tabindex="2" onchange="getCitie(this);">
+													<select id="provinceCode" name="provinceCode" th:value="${data.provinceCode}" data-placeholder="请选择省份" class="chosen-select" tabindex="2" onchange="getCitie(this);">
 														<option value="">请选择省份</option>
-														<option th:each="m,obj:${province}" th:value="${m.provinceid}" th:text="${m.province}"></option>
+														<option th:selected="${m.provinceid eq data.provinceCode}" th:each="m,obj:${province}" th:value="${m.provinceid}" th:text="${m.province}"></option>
 													</select>
 												</div>
 											</div>
@@ -153,11 +153,12 @@
 									<div class="col-sm-12">
 										<div class="form-group">
 											<label class="col-sm-3 control-label">市：</label>
+											<input id="city" th:value="${data.cityCode}" class="hide">
 											<div class="col-sm-8">
 												<div class="input-group" style="width: 100%;">
-													<select id="cityCode" name="cityCode" data-placeholder="请选择市" class="chosen-select" tabindex="2" onchange="getArea(this);" disabled="disabled">
+													<select id="cityCode" name="cityCode" th:value="${data.cityCode}" data-placeholder="请选择市" class="chosen-select" tabindex="2" onchange="getArea(this);" disabled="disabled">
 														<option value="">请选择市</option>
-														<option th:each="m,obj:${cityCodes}" th:value="${m.key}" th:text="${m.value}"></option>
+														<option th:selected="${m.key eq data.cityCode}" th:each="m,obj:${cityCodes}" th:value="${m.key}" th:text="${m.value}"></option>
 													</select>
 												</div>
 											</div>
@@ -168,11 +169,12 @@
 									<div class="col-sm-12">
 										<div class="form-group">
 											<label class="col-sm-3 control-label">区：</label>
+											<input id="area" th:value="${data.areaCode}" class="hide">
 											<div class="col-sm-8">
 												<div class="input-group" style="width: 100%;">
-													<select id="areaCode" name="areaCode" data-placeholder="请选择区" class="chosen-select" tabindex="2" disabled="disabled">
+													<select id="areaCode" name="areaCode" th:value="${data.areaCode}" data-placeholder="请选择区" class="chosen-select" tabindex="2" disabled="disabled">
 														<option value="">请选择区</option>
-														<option th:each="m,obj:${areaCodes}" th:value="${m.key}" th:text="${m.value}"></option>
+														<option th:selected="${m.key eq data.areaCode}" th:each="m,obj:${areaCodes}" th:value="${m.key}" th:text="${m.value}"></option>
 													</select>
 												</div>
 											</div>
@@ -185,9 +187,9 @@
 											<label class="col-sm-3 control-label">员工状态：</label>
 											<div class="col-sm-8">
 												<div class="input-group" style="width: 100%;">
-													<select id="staffFlg" name="staffFlg" data-placeholder="请选择员工状态" class="chosen-select" tabindex="2">
+													<select id="staffFlg" name="staffFlg" th:value="${data.staffFlg}" data-placeholder="请选择员工状态" class="chosen-select" tabindex="2">
 														<option value="">请选择员工状态</option>
-														<option th:selected="${m.value eq '试用期'}" th:each="m,obj:${staffFlgs}" th:value="${m.key}" th:text="${m.value}"></option>
+														<option th:selected="${m.key eq data.staffFlg}" th:each="m,obj:${staffFlgs}" th:value="${m.key}" th:text="${m.value}"></option>
 													</select>
 												</div>
 											</div>
@@ -201,7 +203,7 @@
 											<div class="col-sm-8">
 												<div class="input-group date">
 													<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-													<input type="text" class="form-control" id="officialTime" name="officialTime" placeholder="请选择转正时间">
+													<input type="text" class="form-control" id="officialTime" name="officialTime" th:value="${#dates.format(data.officialTime, 'yyyy-MM-dd')}" placeholder="请选择转正时间">
 												</div>
 											</div>
 										</div>
@@ -214,7 +216,7 @@
 											<div class="col-sm-8">
 												<div class="input-group date">
 													<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-													<input type="text" class="form-control" id="dimissionTime" name="dimissionTime" placeholder="请选择离职时间">
+													<input type="text" class="form-control" id="dimissionTime" name="dimissionTime" th:value="${#dates.format(data.dimissionTime, 'yyyy-MM-dd')}" placeholder="请选择离职时间">
 												</div>
 											</div>
 										</div>
@@ -266,7 +268,7 @@
 	<script type="text/javascript">
 		$(function(){
 			// jQuery validate
-			$("#addUser").validate({
+			$("#upUser").validate({
 				rules: {//设置必填项
 					accountCode: {
 						required: true
@@ -331,10 +333,10 @@
 				},
 				//ignore:":hidden:not(select)",
 				submitHandler: function(form){
-					var data = $("#addUser").serialize();
+					var data = $("#upUser").serialize();
 					$.ajax({
 						type: "post",
-						url: "/baseinfo/user/save",
+						url: "/baseinfo/user/saveup",
 						data: data,
 						dataType: "json",
 						success: function(data){
@@ -358,7 +360,7 @@
 			
 			//保存
 			$("#B_BASE_INFO_USER_SAVE").click(function(){
-				$("#addUser").submit();
+				$("#upUser").submit();
 			});
 			//返回
 			$("#B_BASE_INFO_USER_BACK").click(function(){
@@ -372,6 +374,16 @@
 			$("#cityCode_chosen").css("width","100%");
 			$("#areaCode_chosen").css("width","100%");
 			$("#staffFlg_chosen").css("width","100%");
+			
+			//初始化省市区
+			var _province = $("#provinceCode").val();
+			if(!isEmpty(_province)){
+				getCitie("",_province);
+			}
+			var _city = $("#city").val();
+			if(!isEmpty(_city)){
+				getArea("",_city);
+			}
 		})
 		
 		//选择菜单
@@ -389,8 +401,13 @@
 		var flg2 = false;
 		
 		//获取市
-		function getCitie(obj){
-			if(flg1 && sheng != obj.value){
+		function getCitie(obj, param){
+			console.log("param", param);
+			if(!isEmpty(obj.value)){
+				param = obj.value;
+			}
+			console.log("param111：", param);
+			if(flg1 && sheng != param){console.log("111");
 				$("#cityCode").attr("disabled", true);
 				$("#cityCode").empty();
 				$("#cityCode").append("<option value=''>请选择市</option>");
@@ -399,7 +416,7 @@
 				$("#areaCode").append("<option value=''>请选择市</option>");
 				$("#areaCode").trigger("chosen:updated");
 			}
-			if(isEmpty(obj.value)){
+			if(isEmpty(param)){console.log("222");
 				$("#cityCode").attr("disabled", true);
 				$("#cityCode").empty();
 				$("#cityCode").append("<option value=''>请选择市</option>");
@@ -407,19 +424,26 @@
 				$("#areaCode").empty();
 				$("#areaCode").append("<option value=''>请选择市</option>");
 				$("#areaCode").trigger("chosen:updated");
-			}else{
+			}else{console.log("333");
 				sheng = obj.value;
 				flg1 = true;
 				$.ajax({
 					type: "post",
 					url: "/common/citie",
-					data: {"provinceid": obj.value},
+					data: {"provinceid": param},
 					dataType: "json",
 					success: function(data){
+						console.log("data", data);
 						$("#cityCode").empty();
 						var ci = "<option value=''>请选择市</option>";
+						var _city = $("#city").val();
 						data.citie.forEach(v=>{
-							ci += "<option value="+v.cityid+">"+v.city+"</option>";
+							if(_city == v.cityid){
+								ci += "<option selected='selected' value="+v.cityid+">"+v.city+"</option>";
+							}else{
+								ci += "<option value="+v.cityid+">"+v.city+"</option>";
+							}
+							
 						});
 						$("#cityCode").append(ci);
 						$("#cityCode").trigger("chosen:updated");
@@ -432,13 +456,17 @@
 		}
 		
 		//获取区
-		function getArea(obj){
-			if(flg2 && shi != obj.value){
+		function getArea(obj, param){
+			if(!isEmpty(obj.value)){
+				param = obj.value;
+			}
+			
+			if(flg2 && shi != param){
 				$("#areaCode").attr("disabled", true);
 				$("#areaCode").empty();
 				$("#areaCode").append("<option value=''>请选择市</option>");
 			}
-			if(isEmpty(obj.value)){
+			if(isEmpty(param)){
 				$("#areaCode").attr("disabled", true);
 				$("#areaCode").empty();
 				$("#areaCode").append("<option value=''>请选择市</option>");
@@ -448,14 +476,20 @@
 				$.ajax({
 					type: "post",
 					url: "/common/area",
-					data: {"cityid": obj.value},
+					data: {"cityid": param},
 					dataType: "json",
 					success: function(data){
 						console.log("data", data);
 						$("#areaCode").empty();
 						var ci = "<option value=''>请选择市</option>";
+						var _area = $("#area").val();
 						data.area.forEach(v=>{
-							ci += "<option value="+v.areaid+">"+v.area+"</option>";
+							if(_area == v.areaid){
+								ci += "<option selected='selected' value="+v.areaid+">"+v.area+"</option>";
+							}else{
+								ci += "<option value="+v.areaid+">"+v.area+"</option>";
+							}
+							
 						});
 						$("#areaCode").append(ci);
 						$("#areaCode").trigger("chosen:updated");

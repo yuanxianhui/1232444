@@ -9,8 +9,16 @@
 <link rel="stylesheet" th:href="@{/hplus/css/animate.css}">
 <link rel="stylesheet" th:href="@{/hplus/css/style.css}">
 <link rel="stylesheet" th:href="@{/css/showButton.css}">
+<!-- Sweet Alert -->
+<link rel="stylesheet" th:href="@{/hplus/css/plugins/sweetalert/sweetalert.css}">
 <!-- jqgrid -->
 <link rel="stylesheet" th:href="@{/hplus/css/plugins/jqgrid/ui.jqgrid.css}">
+
+<style type="text/css">
+th{
+	text-align: center;
+}
+</style>
 </head>
 <body class="gray-bg">
 	<div class="viewport">
@@ -26,16 +34,15 @@
 					<div class="ibox-content">
 						<div class="row">
 							<div class="col-sm-6">
-								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> 新增</button>
-								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"></i> 编辑</button>
-								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-remove"></i> 删除</button>
-								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> 保存</button>
+								<button type="button" class="btn btn-primary btn-sm" id="B_BASE_INFO_ENUM_ADD"><i class="fa fa-plus"></i> 新增</button>
+								<button type="button" class="btn btn-primary btn-sm" id="B_BASE_INFO_ENUM_EDIT"><i class="fa fa-pencil-square-o"></i> 编辑</button>
+								<button type="button" class="btn btn-primary btn-sm" id="B_BASE_INFO_ENUM_REMOVE"><i class="fa fa-remove"></i> 删除</button>
 							</div>
 							<div class="col-sm-6">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="请输入编号或名称"> 
+									<input type="text" class="form-control" id="enumCode" placeholder="请输入编号或名称"> 
 									<span class="input-group-btn"> 
-										<button type="button" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button> 
+										<button type="button" class="btn btn-primary" id="B_BASE_INFO_ENUM_SEARCH"><i class="fa fa-search"></i> 搜索</button> 
 									</span>
 								</div>
 							</div>
@@ -58,16 +65,15 @@
 					<div class="ibox-content">
 						<div class="row">
 							<div class="col-sm-6">
-								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> 新增</button>
-								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"></i> 编辑</button>
-								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-remove"></i> 删除</button>
-								<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> 保存</button>
+								<button type="button" class="btn btn-primary btn-sm" id="B_BASE_INFO_ENUM_ADDD"><i class="fa fa-plus"></i> 新增</button>
+								<button type="button" class="btn btn-primary btn-sm" id="B_BASE_INFO_ENUM_EDITD"><i class="fa fa-pencil-square-o"></i> 编辑</button>
+								<button type="button" class="btn btn-primary btn-sm" id="B_BASE_INFO_ENUM_REMOVED"><i class="fa fa-remove"></i> 删除</button>
 							</div>
 							<div class="col-sm-6">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="请输入编号或名称"> 
+									<input type="text" class="form-control" id="code" placeholder="请输入编号或名称"> 
 									<span class="input-group-btn"> 
-										<button type="button" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button> 
+										<button type="button" class="btn btn-primary" id="B_BASE_INFO_ENUM_SEARCHD"><i class="fa fa-search"></i> 搜索</button> 
 									</span>
 								</div>
 							</div>
@@ -89,151 +95,245 @@
 	<!-- jqGrid -->
 	<script type="text/javascript" th:src="@{/hplus/js/plugins/jqgrid/i18n/grid.locale-cn.js}"></script>
 	<script type="text/javascript" th:src="@{/hplus/js/plugins/jqgrid/jquery.jqGrid.min.js}"></script>
-	<!-- 自定义js -->
-	<script type="text/javascript" th:src="@{/hplus/js/content.js}"></script>
+	<!-- Sweet alert -->
+	<script type="text/javascript" th:src="@{/hplus/js/plugins/sweetalert/sweetalert.min.js}"></script>
+	<!-- 自定义 -->
+	<script type="text/javascript" th:src="@{/js/bolue.js}"></script>
 	
 	<script type="text/javascript">
 		$(function(){
+			/*****************************明细开始*****************************/
+			//检索
+			$("#B_BASE_INFO_ENUM_SEARCHD").click(function(){
+				var rowId = $("#table_list_1").jqGrid("getGridParam", "selrow");
+				if(isEmpty(rowId)){
+					window.parent.showMsg("警告提示", "请选择要操作的枚举类型");
+					return;
+				}
+				var data = $("#table_list_1").jqGrid("getRowData", rowId);
+				
+				var url = "/baseinfo/enum/searchD";
+				var code = $("#code").val();
+				$("#table_list_2").jqGrid("setGridParam",{url: url, postData: {"enumCode": data.enumCode, "code": code}}).trigger("reloadGrid");
+			});
 			
-			$("#popup").click(function(){
-				window.parent.commonModelByUrl("/register/list");
+			//删除
+			$("#B_BASE_INFO_ENUM_REMOVED").click(function(){
+				var rowId = $("#table_list_2").jqGrid("getGridParam", "selrow");
+				if(isEmpty(rowId)){
+					window.parent.showMsg("警告提示", "请选择要编辑的数据");
+					return;
+				}
+				var data = $("#table_list_2").jqGrid("getRowData", rowId);
+				swal({
+					title: "您确定要删除这条信息吗",
+					text: "删除后将无法恢复，请谨慎操作！",
+					type: "warning",
+					showCancelButton: true,
+					cancelButtonText: "取消",
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "删除",
+					closeOnConfirm: false
+				}, function () {
+					$.ajax({
+						type: "post",
+						url: "/baseinfo/enum/removed",
+						data: data,
+						dataType: "json",
+						success: function(data){
+							console.log(data);
+							if(data.success){
+								var url = "/baseinfo/enum/searchD";
+								var data = $("#formlist").serialize();
+								$("#table_list_2").jqGrid("setGridParam",{url: url, postData: data}).trigger("reloadGrid");
+								swal("成功提示", data.errorMessage, "success");
+							}else{
+								swal("异常提示", data.errorMessage);
+							}
+						}
+					});
+				});
+			});
+			
+			//编辑
+			$("#B_BASE_INFO_ENUM_EDITD").click(function(){
+				var rowId = $("#table_list_2").jqGrid("getGridParam", "selrow");
+				if(isEmpty(rowId)){
+					window.parent.showMsg("警告提示", "请选择要编辑的数据");
+					return;
+				}
+				var rowData = $("#table_list_2").jqGrid("getRowData", rowId);
+				window.parent.commonModelByUrl("/baseinfo/enum/editd?enumCode="+rowData.eunmCode+"&code="+rowData.code);
+			});
+			
+			//新增
+			$("#B_BASE_INFO_ENUM_ADDD").click(function(){
+				var rowId = $("#table_list_1").jqGrid("getGridParam", "selrow");
+				if(isEmpty(rowId)){
+					window.parent.showMsg("警告提示", "请选择要操作的枚举类型");
+					return;
+				}
+				var data = $("#table_list_1").jqGrid("getRowData", rowId);
+				
+				window.parent.commonModelByUrl("/baseinfo/enum/addd?enumCode="+data.enumCode);
+			});
+			/*****************************明细结束*****************************/
+			//删除
+			$("#B_BASE_INFO_ENUM_REMOVE").click(function(){
+				var rowId = $("#table_list_1").jqGrid("getGridParam", "selrow");
+				if(isEmpty(rowId)){
+					window.parent.showMsg("警告提示", "请选择要编辑的数据");
+					return;
+				}
+				var data = $("#table_list_1").jqGrid("getRowData", rowId);
+				swal({
+					title: "您确定要删除这条信息吗",
+					text: "删除后将无法恢复，请谨慎操作！",
+					type: "warning",
+					showCancelButton: true,
+					cancelButtonText: "取消",
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "删除",
+					closeOnConfirm: false
+				}, function () {
+					$.ajax({
+						type: "post",
+						url: "/baseinfo/enum/remove",
+						data: {"enumCode": data.enumCode},
+						dataType: "json",
+						success: function(data){
+							console.log(data);
+							if(data.success){
+								var url = "/baseinfo/enum/search";
+								var data = $("#formlist").serialize();
+								$("#table_list_1").jqGrid("setGridParam",{url: url, postData: data}).trigger("reloadGrid");
+								swal("成功提示", data.errorMessage, "success");
+							}else{
+								swal("异常提示", data.errorMessage);
+							}
+						}
+					});
+				});
+			});
+			
+			//编辑
+			$("#B_BASE_INFO_ENUM_EDIT").click(function(){
+				var rowId = $("#table_list_1").jqGrid("getGridParam", "selrow");
+				if(isEmpty(rowId)){
+					window.parent.showMsg("警告提示", "请选择要编辑的数据");
+					return;
+				}
+				var rowData = $("#table_list_1").jqGrid("getRowData", rowId);
+				window.parent.commonModelByUrl("/baseinfo/enum/edit?enumCode="+rowData.enumCode);
+			});
+			
+			//新增
+			$("#B_BASE_INFO_ENUM_ADD").click(function(){
+				window.parent.commonModelByUrl("/baseinfo/enum/add");
+			});
+			
+			//检索
+			$("#B_BASE_INFO_ENUM_SEARCH").click(function(){
+				var url = "/baseinfo/enum/search";
+				var enumCode = $("#enumCode").val();
+				$("#table_list_1").jqGrid("setGridParam",{url: url, postData: {"enumCode": enumCode}}).trigger("reloadGrid");
 			});
 			
 			$.jgrid.defaults.styleUI = 'Bootstrap';
 			
             $("#table_list_1").jqGrid({
-                data: mydata,
-                datatype: "local",
+                mtype: "post",//向后台请求数据的ajax的类型。可选post,get
+                url: "/baseinfo/enum/search",
+                datatype: "json",
                 width:"100%",
                 height: 250,
                 autowidth: true,
                 shrinkToFit: true,
-                rowNum: 14,
+                rownumbers: true,  //显示序列号
+                rowNum: 10,
                 rowList: [10, 20, 30],
                 sortname: 'id',//初始化的时候排序的字段
                 sortorder: "asc",//排序方式,可选desc,asc
-                mtype: "post",//向后台请求数据的ajax的类型。可选post,get
                 pagerpos: 'left',//翻页部分
                 recordpos: 'center',//显示共多少条部分
                 cellsubmit:'remote',//or 'clientArray',remote代表每次编辑提交后进行服务器保存，clientArray只保存到数据表格不保存到服务器
-                multiselect: true,//开启复选框
-                colNames: ['序号', '日期', '客户', '金额', '运费', '总额', '备注'],
+                //multiselect: true,//开启复选框
+                colNames: ['枚举类型编号', '枚举类型名称', '是否有效'],
                 colModel: [
                     {
-                        name: 'id',
-                        index: 'id',
+                        name: 'enumCode',
+                        index: 'enumCode',
+                        width: 150
+                    },
+                    {
+                        name: 'enumName',
+                        index: 'enumName',
+                        width: 100,
+                        align: 'center'
+                    },
+                    {
+                        name: 'validateFlag',
+                        index: 'validateFlag',
                         width: 60,
-                        sorttype: "int"
-                    },
-                    {
-                        name: 'invdate',
-                        index: 'invdate',
-                        width: 90,
-                        sorttype: "date",
-                        formatter: "date"
-                    },
-                    {
-                        name: 'name',
-                        index: 'name',
-                        width: 100
-                    },
-                    {
-                        name: 'amount',
-                        index: 'amount',
-                        width: 80,
-                        align: "right",
-                        sorttype: "float",
-                        formatter: "number"
-                    },
-                    {
-                        name: 'tax',
-                        index: 'tax',
-                        width: 80,
-                        align: "right",
-                        sorttype: "float"
-                    },
-                    {
-                        name: 'total',
-                        index: 'total',
-                        width: 80,
-                        align: "right",
-                        sorttype: "float"
-                    },
-                    {
-                        name: 'note',
-                        index: 'note',
-                        width: 150,
-                        sortable: false
+                        formatter: isValidFmatter,
+                        align: 'center'
                     }
                 ],
                 pager: "#pager_list_1",
                 viewrecords: true,
                 //caption: "jqGrid 示例1",
-                hidegrid: false
+                hidegrid: false,
+                onSelectRow: function(rowid,status){
+                	var rowData = $("#table_list_1").jqGrid("getRowData", rowid);
+                	var url = "/baseinfo/enum/searchD";
+					var enumCode = $("#enumCode").val();
+					$("#code").val("");
+					$("#table_list_2").jqGrid("setGridParam",{url: url, postData: {"enumCode": rowData.enumCode, "code":""}}).trigger("reloadGrid");
+                }
             });
 			
             $("#table_list_2").jqGrid({
-                data: mydata,
-                datatype: "local",
+                mtype: "post",//向后台请求数据的ajax的类型。可选post,get
+                url: "",
+                datatype: "json",
                 width:"100%",
                 height: 250,
                 autowidth: true,
                 shrinkToFit: true,
-                rowNum: 14,
+                rownumbers: true,  //显示序列号
+                rowNum: 10,
                 rowList: [10, 20, 30],
                 sortname: 'id',//初始化的时候排序的字段
                 sortorder: "asc",//排序方式,可选desc,asc
-                mtype: "post",//向后台请求数据的ajax的类型。可选post,get
                 pagerpos: 'left',//翻页部分
                 recordpos: 'center',//显示共多少条部分
-                multiselect: true,//开启复选框
-                colNames: ['序号', '日期', '客户', '金额', '运费', '总额', '备注'],
+                //multiselect: true,//开启复选框
+                colNames: ['枚举分类编号', '编号', '名称', '是否有效'],
                 colModel: [
                     {
-                        name: 'id',
-                        index: 'id',
-                        width: 60,
-                        sorttype: "int"
+                        name: 'eunmCode',
+                        index: 'eunmCode',
+                        width: 150,
+                        align: 'center'
                     },
                     {
-                        name: 'invdate',
-                        index: 'invdate',
-                        width: 90,
-                        sorttype: "date",
-                        formatter: "date"
+                        name: 'code',
+                        index: 'code',
+                        width: 60,
+                        align: 'center'
                     },
                     {
                         name: 'name',
                         index: 'name',
-                        width: 100
+                        width: 100,
+                        align: 'center'
                     },
                     {
-                        name: 'amount',
-                        index: 'amount',
-                        width: 80,
-                        align: "right",
-                        sorttype: "float",
-                        formatter: "number"
-                    },
-                    {
-                        name: 'tax',
-                        index: 'tax',
-                        width: 80,
-                        align: "right",
-                        sorttype: "float"
-                    },
-                    {
-                        name: 'total',
-                        index: 'total',
-                        width: 80,
-                        align: "right",
-                        sorttype: "float"
-                    },
-                    {
-                        name: 'note',
-                        index: 'note',
-                        width: 150,
-                        sortable: false
+                        name: 'validateFlag',
+                        index: 'validateFlag',
+                        width: 60,
+                        formatter: isValidFmatter,
+                        align: 'center'
                     }
                 ],
                 pager: "#pager_list_2",
@@ -252,248 +352,6 @@
             /*可以控制界面上增删改查的按钮是否显示*/
             //jQuery("#table_list_1").jqGrid('navGrid', '#pager_list_1', {edit : false,add : false,del : false});
 		});
-		
-        
-        // Examle data for jqGrid
-        var mydata = [
-            {
-                id: "1",
-                invdate: "2010-05-24",
-                name: "test",
-                note: "note",
-                tax: "10.00",
-                total: "2111.00"
-            },
-            {
-                id: "2",
-                invdate: "2010-05-25",
-                name: "test2",
-                note: "note2",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "3",
-                invdate: "2007-09-01",
-                name: "test3",
-                note: "note3",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "4",
-                invdate: "2007-10-04",
-                name: "test",
-                note: "note",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "5",
-                invdate: "2007-10-05",
-                name: "test2",
-                note: "note2",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "6",
-                invdate: "2007-09-06",
-                name: "test3",
-                note: "note3",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "7",
-                invdate: "2007-10-04",
-                name: "test",
-                note: "note",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "8",
-                invdate: "2007-10-03",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "21.00",
-                total: "320.00"
-            },
-            {
-                id: "9",
-                invdate: "2007-09-01",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "11",
-                invdate: "2007-10-01",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "12",
-                invdate: "2007-10-02",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "13",
-                invdate: "2007-09-01",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "14",
-                invdate: "2007-10-04",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "15",
-                invdate: "2007-10-05",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "16",
-                invdate: "2007-09-06",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "17",
-                invdate: "2007-10-04",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "18",
-                invdate: "2007-10-03",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "19",
-                invdate: "2007-09-01",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "21",
-                invdate: "2007-10-01",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "22",
-                invdate: "2007-10-02",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "23",
-                invdate: "2007-09-01",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "24",
-                invdate: "2007-10-04",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "25",
-                invdate: "2007-10-05",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "26",
-                invdate: "2007-09-06",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "27",
-                invdate: "2007-10-04",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "28",
-                invdate: "2007-10-03",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "29",
-                invdate: "2007-09-01",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            }
-        ];
-
 	</script>
 </body>
 </html>

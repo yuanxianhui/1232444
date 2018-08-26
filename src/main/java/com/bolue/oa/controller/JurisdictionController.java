@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value="/baseinfo/jurisdiction/")
+@RequestMapping(value="/setsys/jurisdiction/")
 public class JurisdictionController {
 
 	@RequestMapping(value="list")

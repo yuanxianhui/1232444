@@ -84,10 +84,13 @@ public class MenuController {
 			if(StringUtils.isBlank(data.getMenuCode()) 
 					|| StringUtils.isBlank(data.getMenuName())
 					|| data.getSerialNumber() == null
-					|| StringUtils.isBlank(data.getIconClass())
-					|| StringUtils.isBlank(data.getMenuFlag())
-					|| StringUtils.isBlank(data.getMenuParent())) {
+					|| StringUtils.isBlank(data.getIconClass())) {
 				
+				result.setErrorMessage("必填项不可以为空！");
+				result.setSuccess(Boolean.FALSE);
+				return result;
+			}
+			if(StringUtils.isBlank(data.getMenuFlag()) && StringUtils.isBlank(data.getMenuParent())) {
 				result.setErrorMessage("必填项不可以为空！");
 				result.setSuccess(Boolean.FALSE);
 				return result;
@@ -109,10 +112,13 @@ public class MenuController {
 			if(StringUtils.isBlank(data.getMenuCode()) 
 					|| StringUtils.isBlank(data.getMenuName())
 					|| data.getSerialNumber() == null
-					|| StringUtils.isBlank(data.getIconClass())
-					|| StringUtils.isBlank(data.getMenuFlag())
-					|| StringUtils.isBlank(data.getMenuParent())) {
+					|| StringUtils.isBlank(data.getIconClass())) {
 				
+				result.setErrorMessage("必填项不可以为空！");
+				result.setSuccess(Boolean.FALSE);
+				return result;
+			}
+			if(StringUtils.isBlank(data.getMenuFlag()) && StringUtils.isBlank(data.getMenuParent())) {
 				result.setErrorMessage("必填项不可以为空！");
 				result.setSuccess(Boolean.FALSE);
 				return result;

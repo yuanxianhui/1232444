@@ -26,6 +26,7 @@ public abstract class BaseResultCode {
 	public final static String FORM_DATA = "0013";
 	public final static String DEL_SUCCESS = "0014";
 	public final static String DEL_FAIL = "0015";
+	public final static String UP_ACCOUNT_FAIL = "0016";
 	static {
 		map.put(TRUE, "操作成功！");
 		map.put(COMMON_FAIL, "操作失败，请重试操作或联系客服人员！");
@@ -43,6 +44,7 @@ public abstract class BaseResultCode {
 		map.put(FORM_DATA, "请检查必填项！");
 		map.put(DEL_SUCCESS, "删除成功！");
 		map.put(DEL_FAIL, "删除失败！");
+		map.put(UP_ACCOUNT_FAIL, "账号信息更新不成功！");
 	}
 	
 	public static String getValueWithKey(String key) {

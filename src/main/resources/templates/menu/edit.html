@@ -34,7 +34,7 @@
 					<div class="form-group">
 						<label class="col-sm-4 control-label fill">菜单编号：</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" id="menuCode" name="menuCode" th:value="${data.menuCode}" placeholder="请输入菜单编号" onkeyup="grapheme_(this);" readonly="readonly">
+							<input type="text" class="form-control" id="menuCode" name="menuCode" th:value="${data.menuCode}" placeholder="请输入菜单编号" maxlength="20" onkeyup="grapheme_(this);" readonly="readonly">
 						</div>
 					</div>
 				</div>
@@ -42,7 +42,7 @@
 					<div class="form-group">
 						<label class="col-sm-4 control-label fill">菜单名称：</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" id="menuName" name="menuName" th:value="${data.menuName}" placeholder="请输入菜单名称">
+							<input type="text" class="form-control" id="menuName" name="menuName" th:value="${data.menuName}" placeholder="请输入菜单名称" maxlength="20">
 						</div>
 					</div>
 				</div>
@@ -52,7 +52,7 @@
 				<div class="form-group ">
 					<label class="col-sm-2 control-label fill">请求URL：</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="menuUrl" name="menuUrl" th:value="${data.menuUrl}" placeholder="请输入URL" onkeyup="nochine(this);">
+						<input type="text" class="form-control" id="menuUrl" name="menuUrl" th:value="${data.menuUrl}" placeholder="请输入URL" maxlength="50" onkeyup="nochine(this);">
 					</div>
 				</div>
 				</div>
@@ -62,7 +62,7 @@
 					<div class="form-group">
 						<label class="col-sm-4 control-label fill">排序号：</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" id="serialNumber" name="serialNumber" th:value="${data.serialNumber}" placeholder="请输入排序号" onkeyup="numbern(this);">
+							<input type="text" class="form-control" id="serialNumber" name="serialNumber" th:value="${data.serialNumber}" placeholder="请输入排序号" maxlength="11" onkeyup="numbern(this);">
 						</div>
 					</div>
 				</div>
@@ -70,7 +70,7 @@
 					<div class="form-group">
 						<label class="col-sm-4 control-label">显示图标：</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" id="iconClass" name="iconClass" th:value="${data.iconClass}" placeholder="请输入图标编号" onkeyup="grapheme_(this);">
+							<input type="text" class="form-control" id="iconClass" name="iconClass" th:value="${data.iconClass}" placeholder="请输入图标编号" maxlength="60" onkeyup="grapheme_(this);">
 						</div>
 					</div>
 				</div>
@@ -81,9 +81,9 @@
 						<label class="col-sm-4 control-label">选择父菜单：</label>
 						<div class="col-sm-8">
 							<div class="input-group" style="width: 100%;">
-								<select id="menuFlag" name="menuFlag" data-placeholder="请选择父菜单" class="chosen-select" tabindex="2" disabled="disabled">
+								<select id="menuParent" name="menuParent" data-placeholder="请选择父菜单" class="chosen-select" tabindex="2" disabled="disabled">
 									<option value="">请选择父菜单</option>
-									<option th:selected="${data.menuParent eq m}" th:each="m,obj:${menu}" th:value="${m}" th:text="${m}"></option>
+									<option th:selected="${m eq data.menuParent}" th:each="m,obj:${menu}" th:value="${m}" th:text="${m}"></option>
 								</select>
 							</div>
 						</div>
@@ -93,7 +93,7 @@
 					<div class="form-group">
 						<label class="col-sm-4 control-label">父菜单编号：</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" id="menuParent" name="menuParent"  th:value="${data.menuParent}" placeholder="请输入父菜单编号" onkeyup="grapheme_(this);">
+							<input type="text" class="form-control" id="menuFlag" name="menuFlag"  th:value="${data.menuFlag}" placeholder="请输入父菜单编号" maxlength="20" onkeyup="grapheme_(this);">
 						</div>
 					</div>
 				</div>
@@ -113,7 +113,7 @@
 				</div>
 				<div class="col-sm-6" style="text-align: right;">
 					<div class="checkbox checkbox-primary">
-						<input id="checkbox2" type="checkbox" checked="checked">
+						<input id="checkbox2" type="checkbox">
 						<label for="checkbox2" class="fill">是否为父菜单(默认勾选为新增父菜单)</label>
 					</div>
 				</div>
@@ -241,19 +241,19 @@
 			//是否为父菜单：勾选：父菜单，不勾选：子菜单
 			$("#checkbox2").on("click", function(){
 				if($("#checkbox2").is(':checked')){
-					$("#menuFlag").attr("disabled", "disabled");
-					$("#menuParent").attr("readonly", false);
-					$("#menuFlag").val("");
-				}else{
-					$("#menuFlag").removeAttr("disabled");
-					$("#menuParent").attr("readonly", true);
+					$("#menuFlag").attr("readonly", false);
+					$("#menuParent").attr("disabled", "disabled");
 					$("#menuParent").val("");
+				}else{
+					$("#menuFlag").attr("readonly", true);
+					$("#menuParent").removeAttr("disabled");
+					$("#menuFlag").val("");
 				}
-				$("#menuFlag").trigger("chosen:updated");
+				$("#menuParent").trigger("chosen:updated");
 			});
 			
 			//设置下拉框宽度
-			$("#menuFlag_chosen").css("width","100%");
+			$("#menuParent_chosen").css("width","100%");
 			$("#validateFlag_chosen").css("width","100%");
 		})
 		

@@ -3,6 +3,8 @@ package com.bolue.oa.entity.enumer;
 import java.util.Date;
 
 public class SysEnumerateDetailed extends SysEnumerateDetailedKey {
+    private String name;
+
     private String validateFlag;
 
     private Date createTime;
@@ -12,6 +14,14 @@ public class SysEnumerateDetailed extends SysEnumerateDetailedKey {
     private Date updateTime;
 
     private String updateUser;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
 
     public String getValidateFlag() {
         return validateFlag;
