@@ -1,6 +1,5 @@
 package com.bolue.oa.system.service.impl;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import com.bolue.oa.system.entity.SysButton;
 import com.bolue.oa.system.service.SysButtonService;
 import com.bolue.oa.util.BaseResultCode;
 import com.bolue.oa.util.ResultDO;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 @Service
 public class SysButtonServiceImpl implements SysButtonService {
